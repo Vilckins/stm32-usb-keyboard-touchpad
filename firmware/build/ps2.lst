@@ -1,0 +1,2303 @@
+ARM GAS  /tmp/ccxuCWdP.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"ps2.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Core/Src/ps2.c"
+  18              		.section	.text.ps2_send_cmd,"ax",%progbits
+  19              		.align	1
+  20              		.global	ps2_send_cmd
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	ps2_send_cmd:
+  26              	.LVL0:
+  27              	.LFB65:
+   1:Core/Src/ps2.c **** // ============================================
+   2:Core/Src/ps2.c **** // PS/2 Touchpad Driver
+   3:Core/Src/ps2.c **** // ============================================
+   4:Core/Src/ps2.c **** #include "ps2.h"
+   5:Core/Src/ps2.c **** #include "main.h"
+   6:Core/Src/ps2.c **** 
+   7:Core/Src/ps2.c **** // ============================================================
+   8:Core/Src/ps2.c **** // ==== PS/2: Отправка команды ====
+   9:Core/Src/ps2.c **** // ============================================================
+  10:Core/Src/ps2.c **** uint8_t ps2_send_cmd(uint8_t cmd)
+  11:Core/Src/ps2.c **** {
+  28              		.loc 1 11 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 11 1 is_stmt 0 view .LVU1
+  33 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 24
+  36              		.cfi_offset 4, -24
+  37              		.cfi_offset 5, -20
+  38              		.cfi_offset 6, -16
+  39              		.cfi_offset 7, -12
+  40              		.cfi_offset 8, -8
+  41              		.cfi_offset 14, -4
+  42 0004 0646     		mov	r6, r0
+  12:Core/Src/ps2.c ****     uint8_t response = 0;
+  43              		.loc 1 12 5 is_stmt 1 view .LVU2
+  44              	.LVL1:
+  13:Core/Src/ps2.c ****     uint32_t timeout = 0;
+  45              		.loc 1 13 5 view .LVU3
+ARM GAS  /tmp/ccxuCWdP.s 			page 2
+
+
+  14:Core/Src/ps2.c ****     uint8_t parity = 1;
+  46              		.loc 1 14 5 view .LVU4
+  15:Core/Src/ps2.c ****     uint8_t parity_bit = 0;
+  47              		.loc 1 15 5 view .LVU5
+  16:Core/Src/ps2.c **** 
+  17:Core/Src/ps2.c ****     // 1. Bring the Clock line low for at least 100 microseconds.
+  18:Core/Src/ps2.c ****     HAL_GPIO_WritePin(PS2_PORT, PS2_CLK_PIN, GPIO_PIN_RESET);
+  48              		.loc 1 18 5 view .LVU6
+  49 0006 994C     		ldr	r4, .L90
+  50 0008 0022     		movs	r2, #0
+  51 000a 4021     		movs	r1, #64
+  52 000c 2046     		mov	r0, r4
+  53              	.LVL2:
+  54              		.loc 1 18 5 is_stmt 0 view .LVU7
+  55 000e FFF7FEFF 		bl	HAL_GPIO_WritePin
+  56              	.LVL3:
+  19:Core/Src/ps2.c ****     // delay_us(100);
+  20:Core/Src/ps2.c **** 
+  21:Core/Src/ps2.c ****     // 2. Bring the Data line low.
+  22:Core/Src/ps2.c ****     HAL_GPIO_WritePin(PS2_PORT, PS2_DATA_PIN, GPIO_PIN_RESET);
+  57              		.loc 1 22 5 is_stmt 1 view .LVU8
+  58 0012 0022     		movs	r2, #0
+  59 0014 8021     		movs	r1, #128
+  60 0016 2046     		mov	r0, r4
+  61 0018 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  62              	.LVL4:
+  23:Core/Src/ps2.c ****     // delay_us(10);
+  24:Core/Src/ps2.c **** 
+  25:Core/Src/ps2.c ****     // 3. Release the Clock line.
+  26:Core/Src/ps2.c ****     HAL_GPIO_WritePin(PS2_PORT, PS2_CLK_PIN, GPIO_PIN_SET);
+  63              		.loc 1 26 5 view .LVU9
+  64 001c 0122     		movs	r2, #1
+  65 001e 4021     		movs	r1, #64
+  66 0020 2046     		mov	r0, r4
+  67 0022 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  68              	.LVL5:
+  27:Core/Src/ps2.c **** 
+  28:Core/Src/ps2.c ****     // 4. Wait for the device to bring the Clock line low.
+  29:Core/Src/ps2.c ****     timeout = 100000;
+  69              		.loc 1 29 5 view .LVU10
+  30:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  70              		.loc 1 30 5 view .LVU11
+  29:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  71              		.loc 1 29 13 is_stmt 0 view .LVU12
+  72 0026 924C     		ldr	r4, .L90+4
+  73              		.loc 1 30 11 view .LVU13
+  74 0028 00E0     		b	.L2
+  75              	.LVL6:
+  76              	.L4:
+  31:Core/Src/ps2.c ****         timeout--;
+  77              		.loc 1 31 9 is_stmt 1 view .LVU14
+  78              		.loc 1 31 16 is_stmt 0 view .LVU15
+  79 002a 013C     		subs	r4, r4, #1
+  80              	.LVL7:
+  81              	.L2:
+  30:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  82              		.loc 1 30 57 is_stmt 1 view .LVU16
+ARM GAS  /tmp/ccxuCWdP.s 			page 3
+
+
+  30:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  83              		.loc 1 30 12 is_stmt 0 view .LVU17
+  84 002c 4021     		movs	r1, #64
+  85 002e 8F48     		ldr	r0, .L90
+  86 0030 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+  87              	.LVL8:
+  30:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  88              		.loc 1 30 57 discriminator 1 view .LVU18
+  89 0034 08B1     		cbz	r0, .L3
+  90 0036 002C     		cmp	r4, #0
+  91 0038 F7D1     		bne	.L4
+  92              	.L3:
+  32:Core/Src/ps2.c ****     if (timeout == 0)
+  93              		.loc 1 32 5 is_stmt 1 view .LVU19
+  94              		.loc 1 32 8 is_stmt 0 view .LVU20
+  95 003a 002C     		cmp	r4, #0
+  96 003c 00F03281 		beq	.L64
+  97              	.LBB2:
+  33:Core/Src/ps2.c ****         return 0xFF;
+  34:Core/Src/ps2.c **** 
+  35:Core/Src/ps2.c ****     for (int i = 0; i < 8; i++) {
+  98              		.loc 1 35 14 view .LVU21
+  99 0040 0027     		movs	r7, #0
+ 100              	.LBE2:
+  14:Core/Src/ps2.c ****     uint8_t parity_bit = 0;
+ 101              		.loc 1 14 13 view .LVU22
+ 102 0042 4FF00108 		mov	r8, #1
+ 103 0046 18E0     		b	.L6
+ 104              	.LVL9:
+ 105              	.L87:
+ 106              	.LBB7:
+ 107              	.LBB3:
+  36:Core/Src/ps2.c ****         // Устанавливаем бит данных
+  37:Core/Src/ps2.c ****         uint8_t bit = (cmd >> i) & 1;
+  38:Core/Src/ps2.c **** 
+  39:Core/Src/ps2.c ****         // 5. Set/reset the Data line to send the first data bit
+  40:Core/Src/ps2.c ****         HAL_GPIO_WritePin(PS2_PORT, PS2_DATA_PIN, bit);
+  41:Core/Src/ps2.c ****         delay_us(10);
+  42:Core/Src/ps2.c **** 
+  43:Core/Src/ps2.c ****         // 6. Wait for the device to bring Clock high.
+  44:Core/Src/ps2.c ****         timeout = 100000;
+  45:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+  46:Core/Src/ps2.c ****             timeout--;
+  47:Core/Src/ps2.c ****         if (timeout == 0)
+  48:Core/Src/ps2.c ****             return 0xFF;
+ 108              		.loc 1 48 20 view .LVU23
+ 109 0048 FF24     		movs	r4, #255
+ 110              	.LVL10:
+ 111              	.L5:
+ 112              		.loc 1 48 20 view .LVU24
+ 113              	.LBE3:
+ 114              	.LBE7:
+  49:Core/Src/ps2.c **** 
+  50:Core/Src/ps2.c ****         // 7. Wait for the device to bring Clock low.
+  51:Core/Src/ps2.c ****         timeout = 100000;
+  52:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  53:Core/Src/ps2.c ****             timeout--;
+ARM GAS  /tmp/ccxuCWdP.s 			page 4
+
+
+  54:Core/Src/ps2.c ****         if (timeout == 0)
+  55:Core/Src/ps2.c ****             return 0xFF;
+  56:Core/Src/ps2.c **** 
+  57:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+  58:Core/Src/ps2.c ****         parity ^= bit;
+  59:Core/Src/ps2.c ****     }
+  60:Core/Src/ps2.c **** 
+  61:Core/Src/ps2.c ****     // Отправляем бит четности
+  62:Core/Src/ps2.c **** 
+  63:Core/Src/ps2.c ****     // 5. Set/reset the Data line to send the first data bit
+  64:Core/Src/ps2.c ****     HAL_GPIO_WritePin(PS2_PORT, PS2_DATA_PIN, parity);
+  65:Core/Src/ps2.c ****     delay_us(10);
+  66:Core/Src/ps2.c **** 
+  67:Core/Src/ps2.c ****     // 6. Wait for the device to bring Clock high.
+  68:Core/Src/ps2.c ****     timeout = 100000;
+  69:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+  70:Core/Src/ps2.c ****         timeout--;
+  71:Core/Src/ps2.c ****     if (timeout == 0)
+  72:Core/Src/ps2.c ****         return 0xFF;
+  73:Core/Src/ps2.c **** 
+  74:Core/Src/ps2.c ****     // 7. Wait for the device to bring Clock low.
+  75:Core/Src/ps2.c ****     timeout = 100000;
+  76:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  77:Core/Src/ps2.c ****         timeout--;
+  78:Core/Src/ps2.c ****     if (timeout == 0)
+  79:Core/Src/ps2.c ****         return 0xFF;
+  80:Core/Src/ps2.c **** 
+  81:Core/Src/ps2.c ****     // 9. Release the Data line.
+  82:Core/Src/ps2.c ****     HAL_GPIO_WritePin(PS2_PORT, PS2_DATA_PIN, GPIO_PIN_SET);
+  83:Core/Src/ps2.c **** 
+  84:Core/Src/ps2.c ****     // 10. Wait for the device to bring Data low.
+  85:Core/Src/ps2.c ****     timeout = 100000;
+  86:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+  87:Core/Src/ps2.c ****         timeout--;
+  88:Core/Src/ps2.c ****     if (timeout == 0)
+  89:Core/Src/ps2.c ****         return 0xFF;
+  90:Core/Src/ps2.c **** 
+  91:Core/Src/ps2.c ****     // 11. Wait for the device to bring Clock  low.
+  92:Core/Src/ps2.c ****     timeout = 100000;
+  93:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+  94:Core/Src/ps2.c ****         timeout--;
+  95:Core/Src/ps2.c ****     if (timeout == 0)
+  96:Core/Src/ps2.c ****         return 0xFF;
+  97:Core/Src/ps2.c **** 
+  98:Core/Src/ps2.c ****     // 12. Wait for the device to release Data and Clock
+  99:Core/Src/ps2.c ****     timeout = 100000;
+ 100:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 101:Core/Src/ps2.c ****         timeout--;
+ 102:Core/Src/ps2.c ****     if (timeout == 0)
+ 103:Core/Src/ps2.c ****         return 0xFF;
+ 104:Core/Src/ps2.c ****     timeout = 100000;
+ 105:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 106:Core/Src/ps2.c ****         timeout--;
+ 107:Core/Src/ps2.c ****     if (timeout == 0)
+ 108:Core/Src/ps2.c ****         return 0xFF;
+ 109:Core/Src/ps2.c **** 
+ 110:Core/Src/ps2.c ****     parity = 1;
+ARM GAS  /tmp/ccxuCWdP.s 			page 5
+
+
+ 111:Core/Src/ps2.c **** 
+ 112:Core/Src/ps2.c ****     // 6. Ждём start bit  от устройства (DATA = 0, CLK = 0)
+ 113:Core/Src/ps2.c ****     timeout = 100000;
+ 114:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ 115:Core/Src/ps2.c ****         timeout--;
+ 116:Core/Src/ps2.c ****     if (timeout == 0)
+ 117:Core/Src/ps2.c ****         return 0xFF;
+ 118:Core/Src/ps2.c **** 
+ 119:Core/Src/ps2.c ****     timeout = 100000;
+ 120:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 121:Core/Src/ps2.c ****         timeout--;
+ 122:Core/Src/ps2.c ****     if (timeout == 0)
+ 123:Core/Src/ps2.c ****         return 0xFF;
+ 124:Core/Src/ps2.c **** 
+ 125:Core/Src/ps2.c ****     timeout = 100000;
+ 126:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 127:Core/Src/ps2.c ****         timeout--;
+ 128:Core/Src/ps2.c ****     if (timeout == 0)
+ 129:Core/Src/ps2.c ****         return 0xFF;
+ 130:Core/Src/ps2.c **** 
+ 131:Core/Src/ps2.c ****     timeout = 100000;
+ 132:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 133:Core/Src/ps2.c ****         timeout--;
+ 134:Core/Src/ps2.c ****     if (timeout == 0)
+ 135:Core/Src/ps2.c ****         return 0xFF;
+ 136:Core/Src/ps2.c **** 
+ 137:Core/Src/ps2.c ****     // 7. Читаем ответ от устройства (ACK = 0xFA)
+ 138:Core/Src/ps2.c ****     for (int i = 0; i < 8; i++) {
+ 139:Core/Src/ps2.c ****         timeout = 100000;
+ 140:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 141:Core/Src/ps2.c ****             timeout--;
+ 142:Core/Src/ps2.c ****         if (timeout == 0)
+ 143:Core/Src/ps2.c ****             return 0xFF;
+ 144:Core/Src/ps2.c **** 
+ 145:Core/Src/ps2.c ****         if (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0) {
+ 146:Core/Src/ps2.c ****             response |= (1 << i);
+ 147:Core/Src/ps2.c ****             parity_bit = 1;
+ 148:Core/Src/ps2.c ****         } else
+ 149:Core/Src/ps2.c ****             parity_bit = 0;
+ 150:Core/Src/ps2.c ****         timeout = 100000;
+ 151:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 152:Core/Src/ps2.c ****             timeout--;
+ 153:Core/Src/ps2.c ****         if (timeout == 0)
+ 154:Core/Src/ps2.c ****             return 0xFF;
+ 155:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 156:Core/Src/ps2.c ****         parity ^= parity_bit;
+ 157:Core/Src/ps2.c ****     }
+ 158:Core/Src/ps2.c ****     // 8. Ждём бит четности от устройства
+ 159:Core/Src/ps2.c ****     timeout = 100000;
+ 160:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 161:Core/Src/ps2.c ****         timeout--;
+ 162:Core/Src/ps2.c ****     if (timeout == 0)
+ 163:Core/Src/ps2.c ****         return 0xFF;
+ 164:Core/Src/ps2.c ****     // parity_bit = response;
+ 165:Core/Src/ps2.c ****     if (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != parity) // Проверка на четност
+ 166:Core/Src/ps2.c ****         return 0xFF;
+ 167:Core/Src/ps2.c ****     timeout = 100000;
+ARM GAS  /tmp/ccxuCWdP.s 			page 6
+
+
+ 168:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 169:Core/Src/ps2.c ****         timeout--;
+ 170:Core/Src/ps2.c ****     if (timeout == 0)
+ 171:Core/Src/ps2.c ****         return 0xFF;
+ 172:Core/Src/ps2.c **** 
+ 173:Core/Src/ps2.c ****     // 9. Ждём стоп-бит от устройства
+ 174:Core/Src/ps2.c ****     timeout = 100000;
+ 175:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 176:Core/Src/ps2.c ****         timeout--;
+ 177:Core/Src/ps2.c ****     if (timeout == 0)
+ 178:Core/Src/ps2.c ****         return 0xFF;
+ 179:Core/Src/ps2.c **** 
+ 180:Core/Src/ps2.c ****     timeout = 100000;
+ 181:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 182:Core/Src/ps2.c ****         timeout--;
+ 183:Core/Src/ps2.c ****     if (timeout == 0)
+ 184:Core/Src/ps2.c ****         return 0xFF;
+ 185:Core/Src/ps2.c ****     // response = response & 0x03;
+ 186:Core/Src/ps2.c ****     return response; // Должен быть 0xFA (ACK)
+ 187:Core/Src/ps2.c **** }
+ 115              		.loc 1 187 1 view .LVU25
+ 116 004a 2046     		mov	r0, r4
+ 117 004c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 118              	.LVL11:
+ 119              	.L8:
+ 120              	.LBB8:
+ 121              	.LBB4:
+  47:Core/Src/ps2.c ****             return 0xFF;
+ 122              		.loc 1 47 9 is_stmt 1 view .LVU26
+  47:Core/Src/ps2.c ****             return 0xFF;
+ 123              		.loc 1 47 12 is_stmt 0 view .LVU27
+ 124 0050 002C     		cmp	r4, #0
+ 125 0052 00F02981 		beq	.L65
+  51:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 126              		.loc 1 51 17 view .LVU28
+ 127 0056 864C     		ldr	r4, .L90+4
+ 128              	.LVL12:
+  51:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 129              		.loc 1 51 17 view .LVU29
+ 130 0058 00E0     		b	.L10
+ 131              	.LVL13:
+ 132              	.L12:
+  53:Core/Src/ps2.c ****         if (timeout == 0)
+ 133              		.loc 1 53 13 is_stmt 1 view .LVU30
+  53:Core/Src/ps2.c ****         if (timeout == 0)
+ 134              		.loc 1 53 20 is_stmt 0 view .LVU31
+ 135 005a 013C     		subs	r4, r4, #1
+ 136              	.LVL14:
+ 137              	.L10:
+  52:Core/Src/ps2.c ****             timeout--;
+ 138              		.loc 1 52 61 is_stmt 1 view .LVU32
+  52:Core/Src/ps2.c ****             timeout--;
+ 139              		.loc 1 52 16 is_stmt 0 view .LVU33
+ 140 005c 4021     		movs	r1, #64
+ 141 005e 8348     		ldr	r0, .L90
+ 142 0060 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 143              	.LVL15:
+ARM GAS  /tmp/ccxuCWdP.s 			page 7
+
+
+  52:Core/Src/ps2.c ****             timeout--;
+ 144              		.loc 1 52 61 discriminator 1 view .LVU34
+ 145 0064 18B1     		cbz	r0, .L11
+ 146 0066 002C     		cmp	r4, #0
+ 147 0068 F7D1     		bne	.L12
+  55:Core/Src/ps2.c **** 
+ 148              		.loc 1 55 20 view .LVU35
+ 149 006a FF24     		movs	r4, #255
+ 150              	.LVL16:
+  55:Core/Src/ps2.c **** 
+ 151              		.loc 1 55 20 view .LVU36
+ 152 006c EDE7     		b	.L5
+ 153              	.LVL17:
+ 154              	.L11:
+  54:Core/Src/ps2.c ****             return 0xFF;
+ 155              		.loc 1 54 9 is_stmt 1 view .LVU37
+  54:Core/Src/ps2.c ****             return 0xFF;
+ 156              		.loc 1 54 12 is_stmt 0 view .LVU38
+ 157 006e 002C     		cmp	r4, #0
+ 158 0070 00F01C81 		beq	.L66
+  58:Core/Src/ps2.c ****     }
+ 159              		.loc 1 58 9 is_stmt 1 view .LVU39
+  58:Core/Src/ps2.c ****     }
+ 160              		.loc 1 58 16 is_stmt 0 view .LVU40
+ 161 0074 88EA0508 		eor	r8, r8, r5
+ 162              	.LVL18:
+  58:Core/Src/ps2.c ****     }
+ 163              		.loc 1 58 16 view .LVU41
+ 164              	.LBE4:
+  35:Core/Src/ps2.c ****         // Устанавливаем бит данных
+ 165              		.loc 1 35 29 is_stmt 1 discriminator 2 view .LVU42
+ 166 0078 0137     		adds	r7, r7, #1
+ 167              	.LVL19:
+ 168              	.L6:
+  35:Core/Src/ps2.c ****         // Устанавливаем бит данных
+ 169              		.loc 1 35 23 discriminator 1 view .LVU43
+ 170 007a 072F     		cmp	r7, #7
+ 171 007c 16DC     		bgt	.L86
+ 172              	.LBB5:
+  37:Core/Src/ps2.c **** 
+ 173              		.loc 1 37 9 view .LVU44
+  37:Core/Src/ps2.c **** 
+ 174              		.loc 1 37 28 is_stmt 0 view .LVU45
+ 175 007e 46FA07F5 		asr	r5, r6, r7
+  37:Core/Src/ps2.c **** 
+ 176              		.loc 1 37 17 view .LVU46
+ 177 0082 05F00105 		and	r5, r5, #1
+ 178              	.LVL20:
+  40:Core/Src/ps2.c ****         delay_us(10);
+ 179              		.loc 1 40 9 is_stmt 1 view .LVU47
+ 180 0086 2A46     		mov	r2, r5
+ 181 0088 8021     		movs	r1, #128
+ 182 008a 7848     		ldr	r0, .L90
+ 183 008c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 184              	.LVL21:
+  41:Core/Src/ps2.c **** 
+ 185              		.loc 1 41 9 view .LVU48
+ARM GAS  /tmp/ccxuCWdP.s 			page 8
+
+
+ 186 0090 0A20     		movs	r0, #10
+ 187 0092 FFF7FEFF 		bl	delay_us
+ 188              	.LVL22:
+  44:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 189              		.loc 1 44 9 view .LVU49
+  45:Core/Src/ps2.c ****             timeout--;
+ 190              		.loc 1 45 9 view .LVU50
+  44:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 191              		.loc 1 44 17 is_stmt 0 view .LVU51
+ 192 0096 764C     		ldr	r4, .L90+4
+ 193              	.LVL23:
+ 194              	.L7:
+  45:Core/Src/ps2.c ****             timeout--;
+ 195              		.loc 1 45 61 is_stmt 1 view .LVU52
+  45:Core/Src/ps2.c ****             timeout--;
+ 196              		.loc 1 45 16 is_stmt 0 view .LVU53
+ 197 0098 4021     		movs	r1, #64
+ 198 009a 7448     		ldr	r0, .L90
+ 199 009c FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 200              	.LVL24:
+  45:Core/Src/ps2.c ****             timeout--;
+ 201              		.loc 1 45 61 discriminator 1 view .LVU54
+ 202 00a0 0028     		cmp	r0, #0
+ 203 00a2 D5D1     		bne	.L8
+ 204 00a4 002C     		cmp	r4, #0
+ 205 00a6 CFD0     		beq	.L87
+  46:Core/Src/ps2.c ****         if (timeout == 0)
+ 206              		.loc 1 46 13 is_stmt 1 view .LVU55
+  46:Core/Src/ps2.c ****         if (timeout == 0)
+ 207              		.loc 1 46 20 is_stmt 0 view .LVU56
+ 208 00a8 013C     		subs	r4, r4, #1
+ 209              	.LVL25:
+  46:Core/Src/ps2.c ****         if (timeout == 0)
+ 210              		.loc 1 46 20 view .LVU57
+ 211 00aa F5E7     		b	.L7
+ 212              	.LVL26:
+ 213              	.L86:
+  46:Core/Src/ps2.c ****         if (timeout == 0)
+ 214              		.loc 1 46 20 view .LVU58
+ 215              	.LBE5:
+ 216              	.LBE8:
+  64:Core/Src/ps2.c ****     delay_us(10);
+ 217              		.loc 1 64 5 is_stmt 1 view .LVU59
+ 218 00ac 4246     		mov	r2, r8
+ 219 00ae 8021     		movs	r1, #128
+ 220 00b0 6E48     		ldr	r0, .L90
+ 221 00b2 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 222              	.LVL27:
+  65:Core/Src/ps2.c **** 
+ 223              		.loc 1 65 5 view .LVU60
+ 224 00b6 0A20     		movs	r0, #10
+ 225 00b8 FFF7FEFF 		bl	delay_us
+ 226              	.LVL28:
+  68:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 227              		.loc 1 68 5 view .LVU61
+  69:Core/Src/ps2.c ****         timeout--;
+ 228              		.loc 1 69 5 view .LVU62
+ARM GAS  /tmp/ccxuCWdP.s 			page 9
+
+
+  68:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 229              		.loc 1 68 13 is_stmt 0 view .LVU63
+ 230 00bc 6C4C     		ldr	r4, .L90+4
+  69:Core/Src/ps2.c ****         timeout--;
+ 231              		.loc 1 69 11 view .LVU64
+ 232 00be 00E0     		b	.L14
+ 233              	.LVL29:
+ 234              	.L16:
+  70:Core/Src/ps2.c ****     if (timeout == 0)
+ 235              		.loc 1 70 9 is_stmt 1 view .LVU65
+  70:Core/Src/ps2.c ****     if (timeout == 0)
+ 236              		.loc 1 70 16 is_stmt 0 view .LVU66
+ 237 00c0 013C     		subs	r4, r4, #1
+ 238              	.LVL30:
+ 239              	.L14:
+  69:Core/Src/ps2.c ****         timeout--;
+ 240              		.loc 1 69 57 is_stmt 1 view .LVU67
+  69:Core/Src/ps2.c ****         timeout--;
+ 241              		.loc 1 69 12 is_stmt 0 view .LVU68
+ 242 00c2 4021     		movs	r1, #64
+ 243 00c4 6948     		ldr	r0, .L90
+ 244 00c6 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 245              	.LVL31:
+  69:Core/Src/ps2.c ****         timeout--;
+ 246              		.loc 1 69 57 discriminator 1 view .LVU69
+ 247 00ca 08B9     		cbnz	r0, .L15
+ 248 00cc 002C     		cmp	r4, #0
+ 249 00ce F7D1     		bne	.L16
+ 250              	.L15:
+  71:Core/Src/ps2.c ****         return 0xFF;
+ 251              		.loc 1 71 5 is_stmt 1 view .LVU70
+  71:Core/Src/ps2.c ****         return 0xFF;
+ 252              		.loc 1 71 8 is_stmt 0 view .LVU71
+ 253 00d0 002C     		cmp	r4, #0
+ 254 00d2 00F0ED80 		beq	.L67
+  75:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 255              		.loc 1 75 13 view .LVU72
+ 256 00d6 664C     		ldr	r4, .L90+4
+ 257              	.LVL32:
+ 258              	.L17:
+  76:Core/Src/ps2.c ****         timeout--;
+ 259              		.loc 1 76 57 is_stmt 1 view .LVU73
+  76:Core/Src/ps2.c ****         timeout--;
+ 260              		.loc 1 76 12 is_stmt 0 view .LVU74
+ 261 00d8 4021     		movs	r1, #64
+ 262 00da 6448     		ldr	r0, .L90
+ 263 00dc FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 264              	.LVL33:
+  76:Core/Src/ps2.c ****         timeout--;
+ 265              		.loc 1 76 57 discriminator 1 view .LVU75
+ 266 00e0 10B1     		cbz	r0, .L18
+ 267 00e2 0CB1     		cbz	r4, .L18
+  77:Core/Src/ps2.c ****     if (timeout == 0)
+ 268              		.loc 1 77 9 is_stmt 1 view .LVU76
+  77:Core/Src/ps2.c ****     if (timeout == 0)
+ 269              		.loc 1 77 16 is_stmt 0 view .LVU77
+ 270 00e4 013C     		subs	r4, r4, #1
+ARM GAS  /tmp/ccxuCWdP.s 			page 10
+
+
+ 271              	.LVL34:
+  77:Core/Src/ps2.c ****     if (timeout == 0)
+ 272              		.loc 1 77 16 view .LVU78
+ 273 00e6 F7E7     		b	.L17
+ 274              	.LVL35:
+ 275              	.L18:
+  78:Core/Src/ps2.c ****         return 0xFF;
+ 276              		.loc 1 78 5 is_stmt 1 view .LVU79
+  78:Core/Src/ps2.c ****         return 0xFF;
+ 277              		.loc 1 78 8 is_stmt 0 view .LVU80
+ 278 00e8 002C     		cmp	r4, #0
+ 279 00ea 00F0E380 		beq	.L68
+  82:Core/Src/ps2.c **** 
+ 280              		.loc 1 82 5 is_stmt 1 view .LVU81
+ 281 00ee 0122     		movs	r2, #1
+ 282 00f0 8021     		movs	r1, #128
+ 283 00f2 5E48     		ldr	r0, .L90
+ 284 00f4 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 285              	.LVL36:
+  85:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ 286              		.loc 1 85 5 view .LVU82
+  86:Core/Src/ps2.c ****         timeout--;
+ 287              		.loc 1 86 5 view .LVU83
+  85:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ 288              		.loc 1 85 13 is_stmt 0 view .LVU84
+ 289 00f8 5D4C     		ldr	r4, .L90+4
+  86:Core/Src/ps2.c ****         timeout--;
+ 290              		.loc 1 86 11 view .LVU85
+ 291 00fa 00E0     		b	.L20
+ 292              	.LVL37:
+ 293              	.L22:
+  87:Core/Src/ps2.c ****     if (timeout == 0)
+ 294              		.loc 1 87 9 is_stmt 1 view .LVU86
+  87:Core/Src/ps2.c ****     if (timeout == 0)
+ 295              		.loc 1 87 16 is_stmt 0 view .LVU87
+ 296 00fc 013C     		subs	r4, r4, #1
+ 297              	.LVL38:
+ 298              	.L20:
+  86:Core/Src/ps2.c ****         timeout--;
+ 299              		.loc 1 86 58 is_stmt 1 view .LVU88
+  86:Core/Src/ps2.c ****         timeout--;
+ 300              		.loc 1 86 12 is_stmt 0 view .LVU89
+ 301 00fe 8021     		movs	r1, #128
+ 302 0100 5A48     		ldr	r0, .L90
+ 303 0102 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 304              	.LVL39:
+  86:Core/Src/ps2.c ****         timeout--;
+ 305              		.loc 1 86 58 discriminator 1 view .LVU90
+ 306 0106 08B1     		cbz	r0, .L21
+ 307 0108 002C     		cmp	r4, #0
+ 308 010a F7D1     		bne	.L22
+ 309              	.L21:
+  88:Core/Src/ps2.c ****         return 0xFF;
+ 310              		.loc 1 88 5 is_stmt 1 view .LVU91
+  88:Core/Src/ps2.c ****         return 0xFF;
+ 311              		.loc 1 88 8 is_stmt 0 view .LVU92
+ 312 010c 002C     		cmp	r4, #0
+ARM GAS  /tmp/ccxuCWdP.s 			page 11
+
+
+ 313 010e 00F0D380 		beq	.L69
+  92:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 314              		.loc 1 92 13 view .LVU93
+ 315 0112 574C     		ldr	r4, .L90+4
+ 316              	.LVL40:
+  92:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 317              		.loc 1 92 13 view .LVU94
+ 318 0114 00E0     		b	.L23
+ 319              	.LVL41:
+ 320              	.L25:
+  94:Core/Src/ps2.c ****     if (timeout == 0)
+ 321              		.loc 1 94 9 is_stmt 1 view .LVU95
+  94:Core/Src/ps2.c ****     if (timeout == 0)
+ 322              		.loc 1 94 16 is_stmt 0 view .LVU96
+ 323 0116 013C     		subs	r4, r4, #1
+ 324              	.LVL42:
+ 325              	.L23:
+  93:Core/Src/ps2.c ****         timeout--;
+ 326              		.loc 1 93 57 is_stmt 1 view .LVU97
+  93:Core/Src/ps2.c ****         timeout--;
+ 327              		.loc 1 93 12 is_stmt 0 view .LVU98
+ 328 0118 4021     		movs	r1, #64
+ 329 011a 5448     		ldr	r0, .L90
+ 330 011c FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 331              	.LVL43:
+  93:Core/Src/ps2.c ****         timeout--;
+ 332              		.loc 1 93 57 discriminator 1 view .LVU99
+ 333 0120 08B1     		cbz	r0, .L24
+ 334 0122 002C     		cmp	r4, #0
+ 335 0124 F7D1     		bne	.L25
+ 336              	.L24:
+  95:Core/Src/ps2.c ****         return 0xFF;
+ 337              		.loc 1 95 5 is_stmt 1 view .LVU100
+  95:Core/Src/ps2.c ****         return 0xFF;
+ 338              		.loc 1 95 8 is_stmt 0 view .LVU101
+ 339 0126 002C     		cmp	r4, #0
+ 340 0128 00F0C880 		beq	.L70
+  99:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 341              		.loc 1 99 13 view .LVU102
+ 342 012c 504C     		ldr	r4, .L90+4
+ 343              	.LVL44:
+  99:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 344              		.loc 1 99 13 view .LVU103
+ 345 012e 00E0     		b	.L26
+ 346              	.LVL45:
+ 347              	.L28:
+ 101:Core/Src/ps2.c ****     if (timeout == 0)
+ 348              		.loc 1 101 9 is_stmt 1 view .LVU104
+ 101:Core/Src/ps2.c ****     if (timeout == 0)
+ 349              		.loc 1 101 16 is_stmt 0 view .LVU105
+ 350 0130 013C     		subs	r4, r4, #1
+ 351              	.LVL46:
+ 352              	.L26:
+ 100:Core/Src/ps2.c ****         timeout--;
+ 353              		.loc 1 100 58 is_stmt 1 view .LVU106
+ 100:Core/Src/ps2.c ****         timeout--;
+ 354              		.loc 1 100 12 is_stmt 0 view .LVU107
+ARM GAS  /tmp/ccxuCWdP.s 			page 12
+
+
+ 355 0132 8021     		movs	r1, #128
+ 356 0134 4D48     		ldr	r0, .L90
+ 357 0136 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 358              	.LVL47:
+ 100:Core/Src/ps2.c ****         timeout--;
+ 359              		.loc 1 100 58 discriminator 1 view .LVU108
+ 360 013a 08B9     		cbnz	r0, .L27
+ 361 013c 002C     		cmp	r4, #0
+ 362 013e F7D1     		bne	.L28
+ 363              	.L27:
+ 102:Core/Src/ps2.c ****         return 0xFF;
+ 364              		.loc 1 102 5 is_stmt 1 view .LVU109
+ 102:Core/Src/ps2.c ****         return 0xFF;
+ 365              		.loc 1 102 8 is_stmt 0 view .LVU110
+ 366 0140 002C     		cmp	r4, #0
+ 367 0142 00F0BD80 		beq	.L71
+ 104:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 368              		.loc 1 104 13 view .LVU111
+ 369 0146 4A4C     		ldr	r4, .L90+4
+ 370              	.LVL48:
+ 104:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 371              		.loc 1 104 13 view .LVU112
+ 372 0148 00E0     		b	.L29
+ 373              	.LVL49:
+ 374              	.L31:
+ 106:Core/Src/ps2.c ****     if (timeout == 0)
+ 375              		.loc 1 106 9 is_stmt 1 view .LVU113
+ 106:Core/Src/ps2.c ****     if (timeout == 0)
+ 376              		.loc 1 106 16 is_stmt 0 view .LVU114
+ 377 014a 013C     		subs	r4, r4, #1
+ 378              	.LVL50:
+ 379              	.L29:
+ 105:Core/Src/ps2.c ****         timeout--;
+ 380              		.loc 1 105 57 is_stmt 1 view .LVU115
+ 105:Core/Src/ps2.c ****         timeout--;
+ 381              		.loc 1 105 12 is_stmt 0 view .LVU116
+ 382 014c 4021     		movs	r1, #64
+ 383 014e 4748     		ldr	r0, .L90
+ 384 0150 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 385              	.LVL51:
+ 105:Core/Src/ps2.c ****         timeout--;
+ 386              		.loc 1 105 57 discriminator 1 view .LVU117
+ 387 0154 08B9     		cbnz	r0, .L30
+ 388 0156 002C     		cmp	r4, #0
+ 389 0158 F7D1     		bne	.L31
+ 390              	.L30:
+ 107:Core/Src/ps2.c ****         return 0xFF;
+ 391              		.loc 1 107 5 is_stmt 1 view .LVU118
+ 107:Core/Src/ps2.c ****         return 0xFF;
+ 392              		.loc 1 107 8 is_stmt 0 view .LVU119
+ 393 015a 002C     		cmp	r4, #0
+ 394 015c 00F0B280 		beq	.L72
+ 113:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ 395              		.loc 1 113 13 view .LVU120
+ 396 0160 434C     		ldr	r4, .L90+4
+ 397              	.LVL52:
+ 113:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ARM GAS  /tmp/ccxuCWdP.s 			page 13
+
+
+ 398              		.loc 1 113 13 view .LVU121
+ 399 0162 00E0     		b	.L32
+ 400              	.LVL53:
+ 401              	.L34:
+ 115:Core/Src/ps2.c ****     if (timeout == 0)
+ 402              		.loc 1 115 9 is_stmt 1 view .LVU122
+ 115:Core/Src/ps2.c ****     if (timeout == 0)
+ 403              		.loc 1 115 16 is_stmt 0 view .LVU123
+ 404 0164 013C     		subs	r4, r4, #1
+ 405              	.LVL54:
+ 406              	.L32:
+ 114:Core/Src/ps2.c ****         timeout--;
+ 407              		.loc 1 114 58 is_stmt 1 view .LVU124
+ 114:Core/Src/ps2.c ****         timeout--;
+ 408              		.loc 1 114 12 is_stmt 0 view .LVU125
+ 409 0166 8021     		movs	r1, #128
+ 410 0168 4048     		ldr	r0, .L90
+ 411 016a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 412              	.LVL55:
+ 114:Core/Src/ps2.c ****         timeout--;
+ 413              		.loc 1 114 58 discriminator 1 view .LVU126
+ 414 016e 08B1     		cbz	r0, .L33
+ 415 0170 002C     		cmp	r4, #0
+ 416 0172 F7D1     		bne	.L34
+ 417              	.L33:
+ 116:Core/Src/ps2.c ****         return 0xFF;
+ 418              		.loc 1 116 5 is_stmt 1 view .LVU127
+ 116:Core/Src/ps2.c ****         return 0xFF;
+ 419              		.loc 1 116 8 is_stmt 0 view .LVU128
+ 420 0174 002C     		cmp	r4, #0
+ 421 0176 00F0A780 		beq	.L73
+ 119:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 422              		.loc 1 119 13 view .LVU129
+ 423 017a 3D4C     		ldr	r4, .L90+4
+ 424              	.LVL56:
+ 119:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 425              		.loc 1 119 13 view .LVU130
+ 426 017c 00E0     		b	.L35
+ 427              	.LVL57:
+ 428              	.L37:
+ 121:Core/Src/ps2.c ****     if (timeout == 0)
+ 429              		.loc 1 121 9 is_stmt 1 view .LVU131
+ 121:Core/Src/ps2.c ****     if (timeout == 0)
+ 430              		.loc 1 121 16 is_stmt 0 view .LVU132
+ 431 017e 013C     		subs	r4, r4, #1
+ 432              	.LVL58:
+ 433              	.L35:
+ 120:Core/Src/ps2.c ****         timeout--;
+ 434              		.loc 1 120 57 is_stmt 1 view .LVU133
+ 120:Core/Src/ps2.c ****         timeout--;
+ 435              		.loc 1 120 12 is_stmt 0 view .LVU134
+ 436 0180 4021     		movs	r1, #64
+ 437 0182 3A48     		ldr	r0, .L90
+ 438 0184 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 439              	.LVL59:
+ 120:Core/Src/ps2.c ****         timeout--;
+ 440              		.loc 1 120 57 discriminator 1 view .LVU135
+ARM GAS  /tmp/ccxuCWdP.s 			page 14
+
+
+ 441 0188 08B1     		cbz	r0, .L36
+ 442 018a 002C     		cmp	r4, #0
+ 443 018c F7D1     		bne	.L37
+ 444              	.L36:
+ 122:Core/Src/ps2.c ****         return 0xFF;
+ 445              		.loc 1 122 5 is_stmt 1 view .LVU136
+ 122:Core/Src/ps2.c ****         return 0xFF;
+ 446              		.loc 1 122 8 is_stmt 0 view .LVU137
+ 447 018e 002C     		cmp	r4, #0
+ 448 0190 00F09C80 		beq	.L74
+ 125:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 449              		.loc 1 125 13 view .LVU138
+ 450 0194 364C     		ldr	r4, .L90+4
+ 451              	.LVL60:
+ 125:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 452              		.loc 1 125 13 view .LVU139
+ 453 0196 00E0     		b	.L38
+ 454              	.LVL61:
+ 455              	.L40:
+ 127:Core/Src/ps2.c ****     if (timeout == 0)
+ 456              		.loc 1 127 9 is_stmt 1 view .LVU140
+ 127:Core/Src/ps2.c ****     if (timeout == 0)
+ 457              		.loc 1 127 16 is_stmt 0 view .LVU141
+ 458 0198 013C     		subs	r4, r4, #1
+ 459              	.LVL62:
+ 460              	.L38:
+ 126:Core/Src/ps2.c ****         timeout--;
+ 461              		.loc 1 126 57 is_stmt 1 view .LVU142
+ 126:Core/Src/ps2.c ****         timeout--;
+ 462              		.loc 1 126 12 is_stmt 0 view .LVU143
+ 463 019a 4021     		movs	r1, #64
+ 464 019c 3348     		ldr	r0, .L90
+ 465 019e FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 466              	.LVL63:
+ 126:Core/Src/ps2.c ****         timeout--;
+ 467              		.loc 1 126 57 discriminator 1 view .LVU144
+ 468 01a2 08B9     		cbnz	r0, .L39
+ 469 01a4 002C     		cmp	r4, #0
+ 470 01a6 F7D1     		bne	.L40
+ 471              	.L39:
+ 128:Core/Src/ps2.c ****         return 0xFF;
+ 472              		.loc 1 128 5 is_stmt 1 view .LVU145
+ 128:Core/Src/ps2.c ****         return 0xFF;
+ 473              		.loc 1 128 8 is_stmt 0 view .LVU146
+ 474 01a8 002C     		cmp	r4, #0
+ 475 01aa 00F09180 		beq	.L75
+ 131:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 476              		.loc 1 131 13 view .LVU147
+ 477 01ae 304C     		ldr	r4, .L90+4
+ 478              	.LVL64:
+ 131:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 479              		.loc 1 131 13 view .LVU148
+ 480 01b0 00E0     		b	.L41
+ 481              	.LVL65:
+ 482              	.L43:
+ 133:Core/Src/ps2.c ****     if (timeout == 0)
+ 483              		.loc 1 133 9 is_stmt 1 view .LVU149
+ARM GAS  /tmp/ccxuCWdP.s 			page 15
+
+
+ 133:Core/Src/ps2.c ****     if (timeout == 0)
+ 484              		.loc 1 133 16 is_stmt 0 view .LVU150
+ 485 01b2 013C     		subs	r4, r4, #1
+ 486              	.LVL66:
+ 487              	.L41:
+ 132:Core/Src/ps2.c ****         timeout--;
+ 488              		.loc 1 132 57 is_stmt 1 view .LVU151
+ 132:Core/Src/ps2.c ****         timeout--;
+ 489              		.loc 1 132 12 is_stmt 0 view .LVU152
+ 490 01b4 4021     		movs	r1, #64
+ 491 01b6 2D48     		ldr	r0, .L90
+ 492 01b8 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 493              	.LVL67:
+ 132:Core/Src/ps2.c ****         timeout--;
+ 494              		.loc 1 132 57 discriminator 1 view .LVU153
+ 495 01bc 08B1     		cbz	r0, .L42
+ 496 01be 002C     		cmp	r4, #0
+ 497 01c0 F7D1     		bne	.L43
+ 498              	.L42:
+ 134:Core/Src/ps2.c ****         return 0xFF;
+ 499              		.loc 1 134 5 is_stmt 1 view .LVU154
+ 134:Core/Src/ps2.c ****         return 0xFF;
+ 500              		.loc 1 134 8 is_stmt 0 view .LVU155
+ 501 01c2 002C     		cmp	r4, #0
+ 502 01c4 00F08680 		beq	.L76
+ 503              	.LBB9:
+ 138:Core/Src/ps2.c ****         timeout = 100000;
+ 504              		.loc 1 138 14 view .LVU156
+ 505 01c8 4FF00008 		mov	r8, #0
+ 506              	.LBE9:
+ 110:Core/Src/ps2.c **** 
+ 507              		.loc 1 110 12 view .LVU157
+ 508 01cc 0127     		movs	r7, #1
+ 509              	.LVL68:
+  12:Core/Src/ps2.c ****     uint32_t timeout = 0;
+ 510              		.loc 1 12 13 view .LVU158
+ 511 01ce 4446     		mov	r4, r8
+ 512              	.LVL69:
+  12:Core/Src/ps2.c ****     uint32_t timeout = 0;
+ 513              		.loc 1 12 13 view .LVU159
+ 514 01d0 27E0     		b	.L44
+ 515              	.LVL70:
+ 516              	.L46:
+ 517              	.LBB10:
+ 141:Core/Src/ps2.c ****         if (timeout == 0)
+ 518              		.loc 1 141 13 is_stmt 1 view .LVU160
+ 141:Core/Src/ps2.c ****         if (timeout == 0)
+ 519              		.loc 1 141 20 is_stmt 0 view .LVU161
+ 520 01d2 013D     		subs	r5, r5, #1
+ 521              	.LVL71:
+ 522              	.L51:
+ 140:Core/Src/ps2.c ****             timeout--;
+ 523              		.loc 1 140 61 is_stmt 1 view .LVU162
+ 140:Core/Src/ps2.c ****             timeout--;
+ 524              		.loc 1 140 16 is_stmt 0 view .LVU163
+ 525 01d4 4021     		movs	r1, #64
+ 526 01d6 2548     		ldr	r0, .L90
+ARM GAS  /tmp/ccxuCWdP.s 			page 16
+
+
+ 527 01d8 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 528              	.LVL72:
+ 140:Core/Src/ps2.c ****             timeout--;
+ 529              		.loc 1 140 61 discriminator 1 view .LVU164
+ 530 01dc 18B9     		cbnz	r0, .L45
+ 531 01de 002D     		cmp	r5, #0
+ 532 01e0 F7D1     		bne	.L46
+ 143:Core/Src/ps2.c **** 
+ 533              		.loc 1 143 20 view .LVU165
+ 534 01e2 FF24     		movs	r4, #255
+ 535              	.LVL73:
+ 143:Core/Src/ps2.c **** 
+ 536              		.loc 1 143 20 view .LVU166
+ 537 01e4 31E7     		b	.L5
+ 538              	.LVL74:
+ 539              	.L45:
+ 142:Core/Src/ps2.c ****             return 0xFF;
+ 540              		.loc 1 142 9 is_stmt 1 view .LVU167
+ 142:Core/Src/ps2.c ****             return 0xFF;
+ 541              		.loc 1 142 12 is_stmt 0 view .LVU168
+ 542 01e6 002D     		cmp	r5, #0
+ 543 01e8 76D0     		beq	.L77
+ 145:Core/Src/ps2.c ****             response |= (1 << i);
+ 544              		.loc 1 145 9 is_stmt 1 view .LVU169
+ 145:Core/Src/ps2.c ****             response |= (1 << i);
+ 545              		.loc 1 145 13 is_stmt 0 view .LVU170
+ 546 01ea 8021     		movs	r1, #128
+ 547 01ec 1F48     		ldr	r0, .L90
+ 548 01ee FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 549              	.LVL75:
+ 145:Core/Src/ps2.c ****             response |= (1 << i);
+ 550              		.loc 1 145 12 discriminator 1 view .LVU171
+ 551 01f2 0646     		mov	r6, r0
+ 552 01f4 20B1     		cbz	r0, .L47
+ 146:Core/Src/ps2.c ****             parity_bit = 1;
+ 553              		.loc 1 146 13 is_stmt 1 view .LVU172
+ 146:Core/Src/ps2.c ****             parity_bit = 1;
+ 554              		.loc 1 146 28 is_stmt 0 view .LVU173
+ 555 01f6 0126     		movs	r6, #1
+ 556 01f8 06FA08F3 		lsl	r3, r6, r8
+ 146:Core/Src/ps2.c ****             parity_bit = 1;
+ 557              		.loc 1 146 22 view .LVU174
+ 558 01fc 2343     		orrs	r3, r3, r4
+ 559 01fe DCB2     		uxtb	r4, r3
+ 560              	.LVL76:
+ 147:Core/Src/ps2.c ****         } else
+ 561              		.loc 1 147 13 is_stmt 1 view .LVU175
+ 562              	.L47:
+ 150:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 563              		.loc 1 150 9 view .LVU176
+ 151:Core/Src/ps2.c ****             timeout--;
+ 564              		.loc 1 151 9 view .LVU177
+ 150:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 565              		.loc 1 150 17 is_stmt 0 view .LVU178
+ 566 0200 1B4D     		ldr	r5, .L90+4
+ 567              	.LVL77:
+ 568              	.L48:
+ARM GAS  /tmp/ccxuCWdP.s 			page 17
+
+
+ 151:Core/Src/ps2.c ****             timeout--;
+ 569              		.loc 1 151 61 is_stmt 1 view .LVU179
+ 151:Core/Src/ps2.c ****             timeout--;
+ 570              		.loc 1 151 16 is_stmt 0 view .LVU180
+ 571 0202 4021     		movs	r1, #64
+ 572 0204 1948     		ldr	r0, .L90
+ 573 0206 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 574              	.LVL78:
+ 151:Core/Src/ps2.c ****             timeout--;
+ 575              		.loc 1 151 61 discriminator 1 view .LVU181
+ 576 020a 20B1     		cbz	r0, .L49
+ 577 020c 0DB1     		cbz	r5, .L88
+ 152:Core/Src/ps2.c ****         if (timeout == 0)
+ 578              		.loc 1 152 13 is_stmt 1 view .LVU182
+ 152:Core/Src/ps2.c ****         if (timeout == 0)
+ 579              		.loc 1 152 20 is_stmt 0 view .LVU183
+ 580 020e 013D     		subs	r5, r5, #1
+ 581              	.LVL79:
+ 152:Core/Src/ps2.c ****         if (timeout == 0)
+ 582              		.loc 1 152 20 view .LVU184
+ 583 0210 F7E7     		b	.L48
+ 584              	.LVL80:
+ 585              	.L88:
+ 154:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 586              		.loc 1 154 20 view .LVU185
+ 587 0212 FF24     		movs	r4, #255
+ 588              	.LVL81:
+ 154:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 589              		.loc 1 154 20 view .LVU186
+ 590 0214 19E7     		b	.L5
+ 591              	.LVL82:
+ 592              	.L49:
+ 153:Core/Src/ps2.c ****             return 0xFF;
+ 593              		.loc 1 153 9 is_stmt 1 view .LVU187
+ 153:Core/Src/ps2.c ****             return 0xFF;
+ 594              		.loc 1 153 12 is_stmt 0 view .LVU188
+ 595 0216 002D     		cmp	r5, #0
+ 596 0218 60D0     		beq	.L78
+ 156:Core/Src/ps2.c ****     }
+ 597              		.loc 1 156 9 is_stmt 1 view .LVU189
+ 156:Core/Src/ps2.c ****     }
+ 598              		.loc 1 156 16 is_stmt 0 view .LVU190
+ 599 021a 7E40     		eors	r6, r6, r7
+ 600              	.LVL83:
+ 156:Core/Src/ps2.c ****     }
+ 601              		.loc 1 156 16 view .LVU191
+ 602 021c F7B2     		uxtb	r7, r6
+ 603              	.LVL84:
+ 138:Core/Src/ps2.c ****         timeout = 100000;
+ 604              		.loc 1 138 29 is_stmt 1 discriminator 2 view .LVU192
+ 605 021e 08F10108 		add	r8, r8, #1
+ 606              	.LVL85:
+ 607              	.L44:
+ 138:Core/Src/ps2.c ****         timeout = 100000;
+ 608              		.loc 1 138 23 discriminator 1 view .LVU193
+ 609 0222 B8F1070F 		cmp	r8, #7
+ 610 0226 01DC     		bgt	.L89
+ARM GAS  /tmp/ccxuCWdP.s 			page 18
+
+
+ 139:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 611              		.loc 1 139 17 is_stmt 0 view .LVU194
+ 612 0228 114D     		ldr	r5, .L90+4
+ 613 022a D3E7     		b	.L51
+ 614              	.L89:
+ 615              	.LBE10:
+ 159:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 616              		.loc 1 159 13 view .LVU195
+ 617 022c 104D     		ldr	r5, .L90+4
+ 618 022e 00E0     		b	.L52
+ 619              	.LVL86:
+ 620              	.L54:
+ 161:Core/Src/ps2.c ****     if (timeout == 0)
+ 621              		.loc 1 161 9 is_stmt 1 view .LVU196
+ 161:Core/Src/ps2.c ****     if (timeout == 0)
+ 622              		.loc 1 161 16 is_stmt 0 view .LVU197
+ 623 0230 013D     		subs	r5, r5, #1
+ 624              	.LVL87:
+ 625              	.L52:
+ 160:Core/Src/ps2.c ****         timeout--;
+ 626              		.loc 1 160 57 is_stmt 1 view .LVU198
+ 160:Core/Src/ps2.c ****         timeout--;
+ 627              		.loc 1 160 12 is_stmt 0 view .LVU199
+ 628 0232 4021     		movs	r1, #64
+ 629 0234 0D48     		ldr	r0, .L90
+ 630 0236 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 631              	.LVL88:
+ 160:Core/Src/ps2.c ****         timeout--;
+ 632              		.loc 1 160 57 discriminator 1 view .LVU200
+ 633 023a 08B9     		cbnz	r0, .L53
+ 634 023c 002D     		cmp	r5, #0
+ 635 023e F7D1     		bne	.L54
+ 636              	.L53:
+ 162:Core/Src/ps2.c ****         return 0xFF;
+ 637              		.loc 1 162 5 is_stmt 1 view .LVU201
+ 162:Core/Src/ps2.c ****         return 0xFF;
+ 638              		.loc 1 162 8 is_stmt 0 view .LVU202
+ 639 0240 002D     		cmp	r5, #0
+ 640 0242 4DD0     		beq	.L80
+ 165:Core/Src/ps2.c ****         return 0xFF;
+ 641              		.loc 1 165 5 is_stmt 1 view .LVU203
+ 165:Core/Src/ps2.c ****         return 0xFF;
+ 642              		.loc 1 165 9 is_stmt 0 view .LVU204
+ 643 0244 8021     		movs	r1, #128
+ 644 0246 0948     		ldr	r0, .L90
+ 645 0248 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 646              	.LVL89:
+ 165:Core/Src/ps2.c ****         return 0xFF;
+ 647              		.loc 1 165 8 discriminator 1 view .LVU205
+ 648 024c B842     		cmp	r0, r7
+ 649 024e 49D1     		bne	.L81
+ 167:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 650              		.loc 1 167 13 view .LVU206
+ 651 0250 074D     		ldr	r5, .L90+4
+ 652              	.LVL90:
+ 167:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 653              		.loc 1 167 13 view .LVU207
+ARM GAS  /tmp/ccxuCWdP.s 			page 19
+
+
+ 654 0252 00E0     		b	.L55
+ 655              	.LVL91:
+ 656              	.L57:
+ 169:Core/Src/ps2.c ****     if (timeout == 0)
+ 657              		.loc 1 169 9 is_stmt 1 view .LVU208
+ 169:Core/Src/ps2.c ****     if (timeout == 0)
+ 658              		.loc 1 169 16 is_stmt 0 view .LVU209
+ 659 0254 013D     		subs	r5, r5, #1
+ 660              	.LVL92:
+ 661              	.L55:
+ 168:Core/Src/ps2.c ****         timeout--;
+ 662              		.loc 1 168 57 is_stmt 1 view .LVU210
+ 168:Core/Src/ps2.c ****         timeout--;
+ 663              		.loc 1 168 12 is_stmt 0 view .LVU211
+ 664 0256 4021     		movs	r1, #64
+ 665 0258 0448     		ldr	r0, .L90
+ 666 025a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 667              	.LVL93:
+ 168:Core/Src/ps2.c ****         timeout--;
+ 668              		.loc 1 168 57 discriminator 1 view .LVU212
+ 669 025e 08B1     		cbz	r0, .L56
+ 670 0260 002D     		cmp	r5, #0
+ 671 0262 F7D1     		bne	.L57
+ 672              	.L56:
+ 170:Core/Src/ps2.c ****         return 0xFF;
+ 673              		.loc 1 170 5 is_stmt 1 view .LVU213
+ 170:Core/Src/ps2.c ****         return 0xFF;
+ 674              		.loc 1 170 8 is_stmt 0 view .LVU214
+ 675 0264 002D     		cmp	r5, #0
+ 676 0266 3FD0     		beq	.L82
+ 174:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 677              		.loc 1 174 13 view .LVU215
+ 678 0268 014D     		ldr	r5, .L90+4
+ 679              	.LVL94:
+ 174:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 680              		.loc 1 174 13 view .LVU216
+ 681 026a 04E0     		b	.L58
+ 682              	.L91:
+ 683              		.align	2
+ 684              	.L90:
+ 685 026c 000C0140 		.word	1073810432
+ 686 0270 A0860100 		.word	100000
+ 687              	.LVL95:
+ 688              	.L60:
+ 176:Core/Src/ps2.c ****     if (timeout == 0)
+ 689              		.loc 1 176 9 is_stmt 1 view .LVU217
+ 176:Core/Src/ps2.c ****     if (timeout == 0)
+ 690              		.loc 1 176 16 is_stmt 0 view .LVU218
+ 691 0274 013D     		subs	r5, r5, #1
+ 692              	.LVL96:
+ 693              	.L58:
+ 175:Core/Src/ps2.c ****         timeout--;
+ 694              		.loc 1 175 58 is_stmt 1 view .LVU219
+ 175:Core/Src/ps2.c ****         timeout--;
+ 695              		.loc 1 175 12 is_stmt 0 view .LVU220
+ 696 0276 8021     		movs	r1, #128
+ 697 0278 1D48     		ldr	r0, .L92
+ARM GAS  /tmp/ccxuCWdP.s 			page 20
+
+
+ 698 027a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 699              	.LVL97:
+ 175:Core/Src/ps2.c ****         timeout--;
+ 700              		.loc 1 175 58 discriminator 1 view .LVU221
+ 701 027e 08B9     		cbnz	r0, .L59
+ 702 0280 002D     		cmp	r5, #0
+ 703 0282 F7D1     		bne	.L60
+ 704              	.L59:
+ 177:Core/Src/ps2.c ****         return 0xFF;
+ 705              		.loc 1 177 5 is_stmt 1 view .LVU222
+ 177:Core/Src/ps2.c ****         return 0xFF;
+ 706              		.loc 1 177 8 is_stmt 0 view .LVU223
+ 707 0284 95B3     		cbz	r5, .L83
+ 180:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 708              		.loc 1 180 13 view .LVU224
+ 709 0286 1B4D     		ldr	r5, .L92+4
+ 710              	.LVL98:
+ 180:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 711              		.loc 1 180 13 view .LVU225
+ 712 0288 00E0     		b	.L61
+ 713              	.LVL99:
+ 714              	.L63:
+ 182:Core/Src/ps2.c ****     if (timeout == 0)
+ 715              		.loc 1 182 9 is_stmt 1 view .LVU226
+ 182:Core/Src/ps2.c ****     if (timeout == 0)
+ 716              		.loc 1 182 16 is_stmt 0 view .LVU227
+ 717 028a 013D     		subs	r5, r5, #1
+ 718              	.LVL100:
+ 719              	.L61:
+ 181:Core/Src/ps2.c ****         timeout--;
+ 720              		.loc 1 181 57 is_stmt 1 view .LVU228
+ 181:Core/Src/ps2.c ****         timeout--;
+ 721              		.loc 1 181 12 is_stmt 0 view .LVU229
+ 722 028c 4021     		movs	r1, #64
+ 723 028e 1848     		ldr	r0, .L92
+ 724 0290 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 725              	.LVL101:
+ 181:Core/Src/ps2.c ****         timeout--;
+ 726              		.loc 1 181 57 discriminator 1 view .LVU230
+ 727 0294 08B9     		cbnz	r0, .L62
+ 728 0296 002D     		cmp	r5, #0
+ 729 0298 F7D1     		bne	.L63
+ 730              	.L62:
+ 183:Core/Src/ps2.c ****         return 0xFF;
+ 731              		.loc 1 183 5 is_stmt 1 view .LVU231
+ 183:Core/Src/ps2.c ****         return 0xFF;
+ 732              		.loc 1 183 8 is_stmt 0 view .LVU232
+ 733 029a 002D     		cmp	r5, #0
+ 734 029c 7FF4D5AE 		bne	.L5
+ 184:Core/Src/ps2.c ****     // response = response & 0x03;
+ 735              		.loc 1 184 16 view .LVU233
+ 736 02a0 FF24     		movs	r4, #255
+ 737              	.LVL102:
+ 184:Core/Src/ps2.c ****     // response = response & 0x03;
+ 738              		.loc 1 184 16 view .LVU234
+ 739 02a2 D2E6     		b	.L5
+ 740              	.LVL103:
+ARM GAS  /tmp/ccxuCWdP.s 			page 21
+
+
+ 741              	.L64:
+  33:Core/Src/ps2.c **** 
+ 742              		.loc 1 33 16 view .LVU235
+ 743 02a4 FF24     		movs	r4, #255
+ 744              	.LVL104:
+  33:Core/Src/ps2.c **** 
+ 745              		.loc 1 33 16 view .LVU236
+ 746 02a6 D0E6     		b	.L5
+ 747              	.LVL105:
+ 748              	.L65:
+ 749              	.LBB11:
+ 750              	.LBB6:
+  48:Core/Src/ps2.c **** 
+ 751              		.loc 1 48 20 view .LVU237
+ 752 02a8 FF24     		movs	r4, #255
+ 753              	.LVL106:
+  48:Core/Src/ps2.c **** 
+ 754              		.loc 1 48 20 view .LVU238
+ 755 02aa CEE6     		b	.L5
+ 756              	.LVL107:
+ 757              	.L66:
+  55:Core/Src/ps2.c **** 
+ 758              		.loc 1 55 20 view .LVU239
+ 759 02ac FF24     		movs	r4, #255
+ 760              	.LVL108:
+  55:Core/Src/ps2.c **** 
+ 761              		.loc 1 55 20 view .LVU240
+ 762 02ae CCE6     		b	.L5
+ 763              	.LVL109:
+ 764              	.L67:
+  55:Core/Src/ps2.c **** 
+ 765              		.loc 1 55 20 view .LVU241
+ 766              	.LBE6:
+ 767              	.LBE11:
+  72:Core/Src/ps2.c **** 
+ 768              		.loc 1 72 16 view .LVU242
+ 769 02b0 FF24     		movs	r4, #255
+ 770              	.LVL110:
+  72:Core/Src/ps2.c **** 
+ 771              		.loc 1 72 16 view .LVU243
+ 772 02b2 CAE6     		b	.L5
+ 773              	.LVL111:
+ 774              	.L68:
+  79:Core/Src/ps2.c **** 
+ 775              		.loc 1 79 16 view .LVU244
+ 776 02b4 FF24     		movs	r4, #255
+ 777              	.LVL112:
+  79:Core/Src/ps2.c **** 
+ 778              		.loc 1 79 16 view .LVU245
+ 779 02b6 C8E6     		b	.L5
+ 780              	.LVL113:
+ 781              	.L69:
+  89:Core/Src/ps2.c **** 
+ 782              		.loc 1 89 16 view .LVU246
+ 783 02b8 FF24     		movs	r4, #255
+ 784              	.LVL114:
+  89:Core/Src/ps2.c **** 
+ARM GAS  /tmp/ccxuCWdP.s 			page 22
+
+
+ 785              		.loc 1 89 16 view .LVU247
+ 786 02ba C6E6     		b	.L5
+ 787              	.LVL115:
+ 788              	.L70:
+  96:Core/Src/ps2.c **** 
+ 789              		.loc 1 96 16 view .LVU248
+ 790 02bc FF24     		movs	r4, #255
+ 791              	.LVL116:
+  96:Core/Src/ps2.c **** 
+ 792              		.loc 1 96 16 view .LVU249
+ 793 02be C4E6     		b	.L5
+ 794              	.LVL117:
+ 795              	.L71:
+ 103:Core/Src/ps2.c ****     timeout = 100000;
+ 796              		.loc 1 103 16 view .LVU250
+ 797 02c0 FF24     		movs	r4, #255
+ 798              	.LVL118:
+ 103:Core/Src/ps2.c ****     timeout = 100000;
+ 799              		.loc 1 103 16 view .LVU251
+ 800 02c2 C2E6     		b	.L5
+ 801              	.LVL119:
+ 802              	.L72:
+ 108:Core/Src/ps2.c **** 
+ 803              		.loc 1 108 16 view .LVU252
+ 804 02c4 FF24     		movs	r4, #255
+ 805              	.LVL120:
+ 108:Core/Src/ps2.c **** 
+ 806              		.loc 1 108 16 view .LVU253
+ 807 02c6 C0E6     		b	.L5
+ 808              	.LVL121:
+ 809              	.L73:
+ 117:Core/Src/ps2.c **** 
+ 810              		.loc 1 117 16 view .LVU254
+ 811 02c8 FF24     		movs	r4, #255
+ 812              	.LVL122:
+ 117:Core/Src/ps2.c **** 
+ 813              		.loc 1 117 16 view .LVU255
+ 814 02ca BEE6     		b	.L5
+ 815              	.LVL123:
+ 816              	.L74:
+ 123:Core/Src/ps2.c **** 
+ 817              		.loc 1 123 16 view .LVU256
+ 818 02cc FF24     		movs	r4, #255
+ 819              	.LVL124:
+ 123:Core/Src/ps2.c **** 
+ 820              		.loc 1 123 16 view .LVU257
+ 821 02ce BCE6     		b	.L5
+ 822              	.LVL125:
+ 823              	.L75:
+ 129:Core/Src/ps2.c **** 
+ 824              		.loc 1 129 16 view .LVU258
+ 825 02d0 FF24     		movs	r4, #255
+ 826              	.LVL126:
+ 129:Core/Src/ps2.c **** 
+ 827              		.loc 1 129 16 view .LVU259
+ 828 02d2 BAE6     		b	.L5
+ 829              	.LVL127:
+ARM GAS  /tmp/ccxuCWdP.s 			page 23
+
+
+ 830              	.L76:
+ 135:Core/Src/ps2.c **** 
+ 831              		.loc 1 135 16 view .LVU260
+ 832 02d4 FF24     		movs	r4, #255
+ 833              	.LVL128:
+ 135:Core/Src/ps2.c **** 
+ 834              		.loc 1 135 16 view .LVU261
+ 835 02d6 B8E6     		b	.L5
+ 836              	.LVL129:
+ 837              	.L77:
+ 838              	.LBB12:
+ 143:Core/Src/ps2.c **** 
+ 839              		.loc 1 143 20 view .LVU262
+ 840 02d8 FF24     		movs	r4, #255
+ 841              	.LVL130:
+ 143:Core/Src/ps2.c **** 
+ 842              		.loc 1 143 20 view .LVU263
+ 843 02da B6E6     		b	.L5
+ 844              	.LVL131:
+ 845              	.L78:
+ 154:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 846              		.loc 1 154 20 view .LVU264
+ 847 02dc FF24     		movs	r4, #255
+ 848              	.LVL132:
+ 154:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 849              		.loc 1 154 20 view .LVU265
+ 850 02de B4E6     		b	.L5
+ 851              	.LVL133:
+ 852              	.L80:
+ 154:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 853              		.loc 1 154 20 view .LVU266
+ 854              	.LBE12:
+ 163:Core/Src/ps2.c ****     // parity_bit = response;
+ 855              		.loc 1 163 16 view .LVU267
+ 856 02e0 FF24     		movs	r4, #255
+ 857              	.LVL134:
+ 163:Core/Src/ps2.c ****     // parity_bit = response;
+ 858              		.loc 1 163 16 view .LVU268
+ 859 02e2 B2E6     		b	.L5
+ 860              	.LVL135:
+ 861              	.L81:
+ 166:Core/Src/ps2.c ****     timeout = 100000;
+ 862              		.loc 1 166 16 view .LVU269
+ 863 02e4 FF24     		movs	r4, #255
+ 864              	.LVL136:
+ 166:Core/Src/ps2.c ****     timeout = 100000;
+ 865              		.loc 1 166 16 view .LVU270
+ 866 02e6 B0E6     		b	.L5
+ 867              	.LVL137:
+ 868              	.L82:
+ 171:Core/Src/ps2.c **** 
+ 869              		.loc 1 171 16 view .LVU271
+ 870 02e8 FF24     		movs	r4, #255
+ 871              	.LVL138:
+ 171:Core/Src/ps2.c **** 
+ 872              		.loc 1 171 16 view .LVU272
+ 873 02ea AEE6     		b	.L5
+ARM GAS  /tmp/ccxuCWdP.s 			page 24
+
+
+ 874              	.LVL139:
+ 875              	.L83:
+ 178:Core/Src/ps2.c **** 
+ 876              		.loc 1 178 16 view .LVU273
+ 877 02ec FF24     		movs	r4, #255
+ 878              	.LVL140:
+ 178:Core/Src/ps2.c **** 
+ 879              		.loc 1 178 16 view .LVU274
+ 880 02ee ACE6     		b	.L5
+ 881              	.L93:
+ 882              		.align	2
+ 883              	.L92:
+ 884 02f0 000C0140 		.word	1073810432
+ 885 02f4 A0860100 		.word	100000
+ 886              		.cfi_endproc
+ 887              	.LFE65:
+ 889              		.section	.text.ps2_read_byte,"ax",%progbits
+ 890              		.align	1
+ 891              		.global	ps2_read_byte
+ 892              		.syntax unified
+ 893              		.thumb
+ 894              		.thumb_func
+ 896              	ps2_read_byte:
+ 897              	.LFB66:
+ 188:Core/Src/ps2.c **** 
+ 189:Core/Src/ps2.c **** // ============================================================
+ 190:Core/Src/ps2.c **** // ==== PS/2: Чтение байта от устройства ====
+ 191:Core/Src/ps2.c **** // ============================================================
+ 192:Core/Src/ps2.c **** uint8_t ps2_read_byte(void)
+ 193:Core/Src/ps2.c **** {
+ 898              		.loc 1 193 1 is_stmt 1 view -0
+ 899              		.cfi_startproc
+ 900              		@ args = 0, pretend = 0, frame = 0
+ 901              		@ frame_needed = 0, uses_anonymous_args = 0
+ 902 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 903              	.LCFI1:
+ 904              		.cfi_def_cfa_offset 24
+ 905              		.cfi_offset 4, -24
+ 906              		.cfi_offset 5, -20
+ 907              		.cfi_offset 6, -16
+ 908              		.cfi_offset 7, -12
+ 909              		.cfi_offset 8, -8
+ 910              		.cfi_offset 14, -4
+ 194:Core/Src/ps2.c ****     uint8_t data = 0;
+ 911              		.loc 1 194 5 view .LVU276
+ 912              	.LVL141:
+ 195:Core/Src/ps2.c ****     uint32_t timeout = 0;
+ 913              		.loc 1 195 5 view .LVU277
+ 196:Core/Src/ps2.c ****     uint8_t parity = 1;
+ 914              		.loc 1 196 5 view .LVU278
+ 197:Core/Src/ps2.c ****     uint8_t parity_bit = 0;
+ 915              		.loc 1 197 5 view .LVU279
+ 198:Core/Src/ps2.c **** 
+ 199:Core/Src/ps2.c ****     // 1. Ждём start bit  от устройства (DATA = 0, CLK = 0)
+ 200:Core/Src/ps2.c ****     timeout = 100000;
+ 916              		.loc 1 200 5 view .LVU280
+ 201:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ARM GAS  /tmp/ccxuCWdP.s 			page 25
+
+
+ 917              		.loc 1 201 5 view .LVU281
+ 200:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0 && timeout)
+ 918              		.loc 1 200 13 is_stmt 0 view .LVU282
+ 919 0004 564C     		ldr	r4, .L142
+ 920              	.LVL142:
+ 921              	.L95:
+ 922              		.loc 1 201 58 is_stmt 1 view .LVU283
+ 923              		.loc 1 201 12 is_stmt 0 view .LVU284
+ 924 0006 8021     		movs	r1, #128
+ 925 0008 5648     		ldr	r0, .L142+4
+ 926 000a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 927              	.LVL143:
+ 928              		.loc 1 201 58 discriminator 1 view .LVU285
+ 929 000e 10B1     		cbz	r0, .L96
+ 930 0010 0CB1     		cbz	r4, .L96
+ 202:Core/Src/ps2.c ****         timeout--;
+ 931              		.loc 1 202 9 is_stmt 1 view .LVU286
+ 932              		.loc 1 202 16 is_stmt 0 view .LVU287
+ 933 0012 013C     		subs	r4, r4, #1
+ 934              	.LVL144:
+ 935              		.loc 1 202 16 view .LVU288
+ 936 0014 F7E7     		b	.L95
+ 937              	.LVL145:
+ 938              	.L96:
+ 203:Core/Src/ps2.c ****     if (timeout == 0)
+ 939              		.loc 1 203 5 is_stmt 1 view .LVU289
+ 940              		.loc 1 203 8 is_stmt 0 view .LVU290
+ 941 0016 002C     		cmp	r4, #0
+ 942 0018 00F08C80 		beq	.L128
+ 204:Core/Src/ps2.c ****         return 0xFF;
+ 205:Core/Src/ps2.c **** 
+ 206:Core/Src/ps2.c ****     timeout = 100000;
+ 943              		.loc 1 206 13 view .LVU291
+ 944 001c 504C     		ldr	r4, .L142
+ 945              	.LVL146:
+ 946              		.loc 1 206 13 view .LVU292
+ 947 001e 00E0     		b	.L99
+ 948              	.LVL147:
+ 949              	.L101:
+ 207:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 208:Core/Src/ps2.c ****         timeout--;
+ 950              		.loc 1 208 9 is_stmt 1 view .LVU293
+ 951              		.loc 1 208 16 is_stmt 0 view .LVU294
+ 952 0020 013C     		subs	r4, r4, #1
+ 953              	.LVL148:
+ 954              	.L99:
+ 207:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 955              		.loc 1 207 57 is_stmt 1 view .LVU295
+ 207:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 956              		.loc 1 207 12 is_stmt 0 view .LVU296
+ 957 0022 4021     		movs	r1, #64
+ 958 0024 4F48     		ldr	r0, .L142+4
+ 959 0026 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 960              	.LVL149:
+ 207:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 961              		.loc 1 207 57 discriminator 1 view .LVU297
+ 962 002a 08B1     		cbz	r0, .L100
+ARM GAS  /tmp/ccxuCWdP.s 			page 26
+
+
+ 963 002c 002C     		cmp	r4, #0
+ 964 002e F7D1     		bne	.L101
+ 965              	.L100:
+ 209:Core/Src/ps2.c ****     if (timeout == 0)
+ 966              		.loc 1 209 5 is_stmt 1 view .LVU298
+ 967              		.loc 1 209 8 is_stmt 0 view .LVU299
+ 968 0030 002C     		cmp	r4, #0
+ 969 0032 00F08380 		beq	.L129
+ 210:Core/Src/ps2.c ****         return 0xFF;
+ 211:Core/Src/ps2.c **** 
+ 212:Core/Src/ps2.c ****     timeout = 100000;
+ 970              		.loc 1 212 13 view .LVU300
+ 971 0036 4A4C     		ldr	r4, .L142
+ 972              	.LVL150:
+ 973              		.loc 1 212 13 view .LVU301
+ 974 0038 00E0     		b	.L102
+ 975              	.LVL151:
+ 976              	.L104:
+ 213:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 214:Core/Src/ps2.c ****         timeout--;
+ 977              		.loc 1 214 9 is_stmt 1 view .LVU302
+ 978              		.loc 1 214 16 is_stmt 0 view .LVU303
+ 979 003a 013C     		subs	r4, r4, #1
+ 980              	.LVL152:
+ 981              	.L102:
+ 213:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 982              		.loc 1 213 57 is_stmt 1 view .LVU304
+ 213:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 983              		.loc 1 213 12 is_stmt 0 view .LVU305
+ 984 003c 4021     		movs	r1, #64
+ 985 003e 4948     		ldr	r0, .L142+4
+ 986 0040 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 987              	.LVL153:
+ 213:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 988              		.loc 1 213 57 discriminator 1 view .LVU306
+ 989 0044 08B9     		cbnz	r0, .L103
+ 990 0046 002C     		cmp	r4, #0
+ 991 0048 F7D1     		bne	.L104
+ 992              	.L103:
+ 215:Core/Src/ps2.c ****     if (timeout == 0)
+ 993              		.loc 1 215 5 is_stmt 1 view .LVU307
+ 994              		.loc 1 215 8 is_stmt 0 view .LVU308
+ 995 004a 002C     		cmp	r4, #0
+ 996 004c 78D0     		beq	.L130
+ 216:Core/Src/ps2.c ****         return 0xFF;
+ 217:Core/Src/ps2.c **** 
+ 218:Core/Src/ps2.c ****     timeout = 100000;
+ 997              		.loc 1 218 13 view .LVU309
+ 998 004e 444C     		ldr	r4, .L142
+ 999              	.LVL154:
+ 1000              	.L105:
+ 219:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1001              		.loc 1 219 57 is_stmt 1 view .LVU310
+ 1002              		.loc 1 219 12 is_stmt 0 view .LVU311
+ 1003 0050 4021     		movs	r1, #64
+ 1004 0052 4448     		ldr	r0, .L142+4
+ 1005 0054 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ARM GAS  /tmp/ccxuCWdP.s 			page 27
+
+
+ 1006              	.LVL155:
+ 1007              		.loc 1 219 57 discriminator 1 view .LVU312
+ 1008 0058 10B1     		cbz	r0, .L106
+ 1009 005a 0CB1     		cbz	r4, .L106
+ 220:Core/Src/ps2.c ****         timeout--;
+ 1010              		.loc 1 220 9 is_stmt 1 view .LVU313
+ 1011              		.loc 1 220 16 is_stmt 0 view .LVU314
+ 1012 005c 013C     		subs	r4, r4, #1
+ 1013              	.LVL156:
+ 1014              		.loc 1 220 16 view .LVU315
+ 1015 005e F7E7     		b	.L105
+ 1016              	.LVL157:
+ 1017              	.L106:
+ 221:Core/Src/ps2.c ****     if (timeout == 0)
+ 1018              		.loc 1 221 5 is_stmt 1 view .LVU316
+ 1019              		.loc 1 221 8 is_stmt 0 view .LVU317
+ 1020 0060 002C     		cmp	r4, #0
+ 1021 0062 6FD0     		beq	.L131
+ 1022              	.LBB13:
+ 222:Core/Src/ps2.c ****         return 0xFF;
+ 223:Core/Src/ps2.c **** 
+ 224:Core/Src/ps2.c ****     // 2. Читаем ответ от устройства
+ 225:Core/Src/ps2.c ****     for (int i = 0; i < 8; i++) {
+ 1023              		.loc 1 225 14 view .LVU318
+ 1024 0064 4FF00008 		mov	r8, #0
+ 1025              	.LBE13:
+ 196:Core/Src/ps2.c ****     uint8_t parity_bit = 0;
+ 1026              		.loc 1 196 13 view .LVU319
+ 1027 0068 0127     		movs	r7, #1
+ 194:Core/Src/ps2.c ****     uint32_t timeout = 0;
+ 1028              		.loc 1 194 13 view .LVU320
+ 1029 006a 4646     		mov	r6, r8
+ 1030 006c 28E0     		b	.L108
+ 1031              	.LVL158:
+ 1032              	.L110:
+ 1033              	.LBB14:
+ 226:Core/Src/ps2.c ****         timeout = 100000;
+ 227:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 228:Core/Src/ps2.c ****             timeout--;
+ 1034              		.loc 1 228 13 is_stmt 1 view .LVU321
+ 1035              		.loc 1 228 20 is_stmt 0 view .LVU322
+ 1036 006e 013C     		subs	r4, r4, #1
+ 1037              	.LVL159:
+ 1038              	.L115:
+ 227:Core/Src/ps2.c ****             timeout--;
+ 1039              		.loc 1 227 61 is_stmt 1 view .LVU323
+ 227:Core/Src/ps2.c ****             timeout--;
+ 1040              		.loc 1 227 16 is_stmt 0 view .LVU324
+ 1041 0070 4021     		movs	r1, #64
+ 1042 0072 3C48     		ldr	r0, .L142+4
+ 1043 0074 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1044              	.LVL160:
+ 227:Core/Src/ps2.c ****             timeout--;
+ 1045              		.loc 1 227 61 discriminator 1 view .LVU325
+ 1046 0078 18B9     		cbnz	r0, .L109
+ 1047 007a 002C     		cmp	r4, #0
+ 1048 007c F7D1     		bne	.L110
+ARM GAS  /tmp/ccxuCWdP.s 			page 28
+
+
+ 229:Core/Src/ps2.c ****         if (timeout == 0)
+ 230:Core/Src/ps2.c ****             return 0xFF;
+ 1049              		.loc 1 230 20 view .LVU326
+ 1050 007e FF26     		movs	r6, #255
+ 1051              	.LVL161:
+ 1052              		.loc 1 230 20 view .LVU327
+ 1053 0080 59E0     		b	.L98
+ 1054              	.LVL162:
+ 1055              	.L109:
+ 229:Core/Src/ps2.c ****         if (timeout == 0)
+ 1056              		.loc 1 229 9 is_stmt 1 view .LVU328
+ 229:Core/Src/ps2.c ****         if (timeout == 0)
+ 1057              		.loc 1 229 12 is_stmt 0 view .LVU329
+ 1058 0082 002C     		cmp	r4, #0
+ 1059 0084 60D0     		beq	.L132
+ 231:Core/Src/ps2.c **** 
+ 232:Core/Src/ps2.c ****         if (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != 0) {
+ 1060              		.loc 1 232 9 is_stmt 1 view .LVU330
+ 1061              		.loc 1 232 13 is_stmt 0 view .LVU331
+ 1062 0086 8021     		movs	r1, #128
+ 1063 0088 3648     		ldr	r0, .L142+4
+ 1064 008a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1065              	.LVL163:
+ 1066              		.loc 1 232 12 discriminator 1 view .LVU332
+ 1067 008e 0546     		mov	r5, r0
+ 1068 0090 20B1     		cbz	r0, .L111
+ 233:Core/Src/ps2.c ****             data |= (1 << i);
+ 1069              		.loc 1 233 13 is_stmt 1 view .LVU333
+ 1070              		.loc 1 233 24 is_stmt 0 view .LVU334
+ 1071 0092 0125     		movs	r5, #1
+ 1072 0094 05FA08F3 		lsl	r3, r5, r8
+ 1073              		.loc 1 233 18 view .LVU335
+ 1074 0098 3343     		orrs	r3, r3, r6
+ 1075 009a DEB2     		uxtb	r6, r3
+ 1076              	.LVL164:
+ 234:Core/Src/ps2.c ****             parity_bit = 1;
+ 1077              		.loc 1 234 13 is_stmt 1 view .LVU336
+ 1078              	.L111:
+ 235:Core/Src/ps2.c ****         } else
+ 236:Core/Src/ps2.c ****             parity_bit = 0;
+ 237:Core/Src/ps2.c **** 
+ 238:Core/Src/ps2.c ****         timeout = 100000;
+ 1079              		.loc 1 238 9 view .LVU337
+ 239:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1080              		.loc 1 239 9 view .LVU338
+ 238:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1081              		.loc 1 238 17 is_stmt 0 view .LVU339
+ 1082 009c 304C     		ldr	r4, .L142
+ 1083              		.loc 1 239 15 view .LVU340
+ 1084 009e 00E0     		b	.L112
+ 1085              	.LVL165:
+ 1086              	.L114:
+ 240:Core/Src/ps2.c ****             timeout--;
+ 1087              		.loc 1 240 13 is_stmt 1 view .LVU341
+ 1088              		.loc 1 240 20 is_stmt 0 view .LVU342
+ 1089 00a0 013C     		subs	r4, r4, #1
+ 1090              	.LVL166:
+ARM GAS  /tmp/ccxuCWdP.s 			page 29
+
+
+ 1091              	.L112:
+ 239:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1092              		.loc 1 239 61 is_stmt 1 view .LVU343
+ 239:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1093              		.loc 1 239 16 is_stmt 0 view .LVU344
+ 1094 00a2 4021     		movs	r1, #64
+ 1095 00a4 2F48     		ldr	r0, .L142+4
+ 1096 00a6 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1097              	.LVL167:
+ 239:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1098              		.loc 1 239 61 discriminator 1 view .LVU345
+ 1099 00aa 18B1     		cbz	r0, .L113
+ 1100 00ac 002C     		cmp	r4, #0
+ 1101 00ae F7D1     		bne	.L114
+ 241:Core/Src/ps2.c ****         if (timeout == 0)
+ 242:Core/Src/ps2.c ****             return 0xFF;
+ 1102              		.loc 1 242 20 view .LVU346
+ 1103 00b0 FF26     		movs	r6, #255
+ 1104              	.LVL168:
+ 1105              		.loc 1 242 20 view .LVU347
+ 1106 00b2 40E0     		b	.L98
+ 1107              	.LVL169:
+ 1108              	.L113:
+ 241:Core/Src/ps2.c ****         if (timeout == 0)
+ 1109              		.loc 1 241 9 is_stmt 1 view .LVU348
+ 241:Core/Src/ps2.c ****         if (timeout == 0)
+ 1110              		.loc 1 241 12 is_stmt 0 view .LVU349
+ 1111 00b4 002C     		cmp	r4, #0
+ 1112 00b6 49D0     		beq	.L133
+ 243:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 244:Core/Src/ps2.c ****         parity ^= parity_bit;
+ 1113              		.loc 1 244 9 is_stmt 1 view .LVU350
+ 1114              		.loc 1 244 16 is_stmt 0 view .LVU351
+ 1115 00b8 7D40     		eors	r5, r5, r7
+ 1116              	.LVL170:
+ 1117              		.loc 1 244 16 view .LVU352
+ 1118 00ba EFB2     		uxtb	r7, r5
+ 1119              	.LVL171:
+ 225:Core/Src/ps2.c ****         timeout = 100000;
+ 1120              		.loc 1 225 29 is_stmt 1 discriminator 2 view .LVU353
+ 1121 00bc 08F10108 		add	r8, r8, #1
+ 1122              	.LVL172:
+ 1123              	.L108:
+ 225:Core/Src/ps2.c ****         timeout = 100000;
+ 1124              		.loc 1 225 23 discriminator 1 view .LVU354
+ 1125 00c0 B8F1070F 		cmp	r8, #7
+ 1126 00c4 01DC     		bgt	.L141
+ 226:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1127              		.loc 1 226 17 is_stmt 0 view .LVU355
+ 1128 00c6 264C     		ldr	r4, .L142
+ 1129              	.LVL173:
+ 226:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1130              		.loc 1 226 17 view .LVU356
+ 1131 00c8 D2E7     		b	.L115
+ 1132              	.LVL174:
+ 1133              	.L141:
+ 226:Core/Src/ps2.c ****         while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ARM GAS  /tmp/ccxuCWdP.s 			page 30
+
+
+ 1134              		.loc 1 226 17 view .LVU357
+ 1135              	.LBE14:
+ 245:Core/Src/ps2.c ****     }
+ 246:Core/Src/ps2.c ****     // if (data == 0xFF) data = 0xFE; // Т.к. 0xFF - это ошибка, то убавляем �
+ 247:Core/Src/ps2.c **** 
+ 248:Core/Src/ps2.c ****     // 8. Ждём бит четности от устройства
+ 249:Core/Src/ps2.c ****     timeout = 100000;
+ 1136              		.loc 1 249 13 view .LVU358
+ 1137 00ca 254C     		ldr	r4, .L142
+ 1138              	.LVL175:
+ 1139              		.loc 1 249 13 view .LVU359
+ 1140 00cc 00E0     		b	.L116
+ 1141              	.LVL176:
+ 1142              	.L118:
+ 250:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 251:Core/Src/ps2.c ****         timeout--;
+ 1143              		.loc 1 251 9 is_stmt 1 view .LVU360
+ 1144              		.loc 1 251 16 is_stmt 0 view .LVU361
+ 1145 00ce 013C     		subs	r4, r4, #1
+ 1146              	.LVL177:
+ 1147              	.L116:
+ 250:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1148              		.loc 1 250 57 is_stmt 1 view .LVU362
+ 250:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1149              		.loc 1 250 12 is_stmt 0 view .LVU363
+ 1150 00d0 4021     		movs	r1, #64
+ 1151 00d2 2448     		ldr	r0, .L142+4
+ 1152 00d4 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1153              	.LVL178:
+ 250:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1154              		.loc 1 250 57 discriminator 1 view .LVU364
+ 1155 00d8 08B9     		cbnz	r0, .L117
+ 1156 00da 002C     		cmp	r4, #0
+ 1157 00dc F7D1     		bne	.L118
+ 1158              	.L117:
+ 252:Core/Src/ps2.c ****     if (timeout == 0)
+ 1159              		.loc 1 252 5 is_stmt 1 view .LVU365
+ 1160              		.loc 1 252 8 is_stmt 0 view .LVU366
+ 1161 00de 002C     		cmp	r4, #0
+ 1162 00e0 36D0     		beq	.L135
+ 253:Core/Src/ps2.c ****         return 0xFF;
+ 254:Core/Src/ps2.c ****     // parity_bit = data;
+ 255:Core/Src/ps2.c ****     if (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) != parity) // Проверка на четност
+ 1163              		.loc 1 255 5 is_stmt 1 view .LVU367
+ 1164              		.loc 1 255 9 is_stmt 0 view .LVU368
+ 1165 00e2 8021     		movs	r1, #128
+ 1166 00e4 1F48     		ldr	r0, .L142+4
+ 1167 00e6 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1168              	.LVL179:
+ 1169              		.loc 1 255 8 discriminator 1 view .LVU369
+ 1170 00ea B842     		cmp	r0, r7
+ 1171 00ec 32D1     		bne	.L136
+ 256:Core/Src/ps2.c ****         return 0xFF;
+ 257:Core/Src/ps2.c ****     timeout = 100000;
+ 1172              		.loc 1 257 13 view .LVU370
+ 1173 00ee 1C4C     		ldr	r4, .L142
+ 1174              	.LVL180:
+ARM GAS  /tmp/ccxuCWdP.s 			page 31
+
+
+ 1175              		.loc 1 257 13 view .LVU371
+ 1176 00f0 00E0     		b	.L119
+ 1177              	.LVL181:
+ 1178              	.L121:
+ 258:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 259:Core/Src/ps2.c ****         timeout--;
+ 1179              		.loc 1 259 9 is_stmt 1 view .LVU372
+ 1180              		.loc 1 259 16 is_stmt 0 view .LVU373
+ 1181 00f2 013C     		subs	r4, r4, #1
+ 1182              	.LVL182:
+ 1183              	.L119:
+ 258:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1184              		.loc 1 258 57 is_stmt 1 view .LVU374
+ 258:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1185              		.loc 1 258 12 is_stmt 0 view .LVU375
+ 1186 00f4 4021     		movs	r1, #64
+ 1187 00f6 1B48     		ldr	r0, .L142+4
+ 1188 00f8 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1189              	.LVL183:
+ 258:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) != 0 && timeout)
+ 1190              		.loc 1 258 57 discriminator 1 view .LVU376
+ 1191 00fc 08B1     		cbz	r0, .L120
+ 1192 00fe 002C     		cmp	r4, #0
+ 1193 0100 F7D1     		bne	.L121
+ 1194              	.L120:
+ 260:Core/Src/ps2.c ****     if (timeout == 0)
+ 1195              		.loc 1 260 5 is_stmt 1 view .LVU377
+ 1196              		.loc 1 260 8 is_stmt 0 view .LVU378
+ 1197 0102 4CB3     		cbz	r4, .L137
+ 261:Core/Src/ps2.c ****         return 0xFF;
+ 262:Core/Src/ps2.c **** 
+ 263:Core/Src/ps2.c ****     // 9. Ждём стоп-бит от устройства
+ 264:Core/Src/ps2.c ****     timeout = 100000;
+ 1198              		.loc 1 264 13 view .LVU379
+ 1199 0104 164C     		ldr	r4, .L142
+ 1200              	.LVL184:
+ 1201              		.loc 1 264 13 view .LVU380
+ 1202 0106 00E0     		b	.L122
+ 1203              	.LVL185:
+ 1204              	.L124:
+ 265:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 266:Core/Src/ps2.c ****         timeout--;
+ 1205              		.loc 1 266 9 is_stmt 1 view .LVU381
+ 1206              		.loc 1 266 16 is_stmt 0 view .LVU382
+ 1207 0108 013C     		subs	r4, r4, #1
+ 1208              	.LVL186:
+ 1209              	.L122:
+ 265:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 1210              		.loc 1 265 58 is_stmt 1 view .LVU383
+ 265:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 1211              		.loc 1 265 12 is_stmt 0 view .LVU384
+ 1212 010a 8021     		movs	r1, #128
+ 1213 010c 1548     		ldr	r0, .L142+4
+ 1214 010e FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1215              	.LVL187:
+ 265:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_DATA_PIN) == 0 && timeout)
+ 1216              		.loc 1 265 58 discriminator 1 view .LVU385
+ARM GAS  /tmp/ccxuCWdP.s 			page 32
+
+
+ 1217 0112 08B9     		cbnz	r0, .L123
+ 1218 0114 002C     		cmp	r4, #0
+ 1219 0116 F7D1     		bne	.L124
+ 1220              	.L123:
+ 267:Core/Src/ps2.c ****     if (timeout == 0)
+ 1221              		.loc 1 267 5 is_stmt 1 view .LVU386
+ 1222              		.loc 1 267 8 is_stmt 0 view .LVU387
+ 1223 0118 04B3     		cbz	r4, .L138
+ 268:Core/Src/ps2.c ****         return 0xFF;
+ 269:Core/Src/ps2.c **** 
+ 270:Core/Src/ps2.c ****     timeout = 100000;
+ 1224              		.loc 1 270 13 view .LVU388
+ 1225 011a 114C     		ldr	r4, .L142
+ 1226              	.LVL188:
+ 1227              		.loc 1 270 13 view .LVU389
+ 1228 011c 00E0     		b	.L125
+ 1229              	.LVL189:
+ 1230              	.L127:
+ 271:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 272:Core/Src/ps2.c ****         timeout--;
+ 1231              		.loc 1 272 9 is_stmt 1 view .LVU390
+ 1232              		.loc 1 272 16 is_stmt 0 view .LVU391
+ 1233 011e 013C     		subs	r4, r4, #1
+ 1234              	.LVL190:
+ 1235              	.L125:
+ 271:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1236              		.loc 1 271 57 is_stmt 1 view .LVU392
+ 271:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1237              		.loc 1 271 12 is_stmt 0 view .LVU393
+ 1238 0120 4021     		movs	r1, #64
+ 1239 0122 1048     		ldr	r0, .L142+4
+ 1240 0124 FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 1241              	.LVL191:
+ 271:Core/Src/ps2.c ****     while (HAL_GPIO_ReadPin(PS2_PORT, PS2_CLK_PIN) == 0 && timeout)
+ 1242              		.loc 1 271 57 discriminator 1 view .LVU394
+ 1243 0128 08B9     		cbnz	r0, .L126
+ 1244 012a 002C     		cmp	r4, #0
+ 1245 012c F7D1     		bne	.L127
+ 1246              	.L126:
+ 273:Core/Src/ps2.c ****     if (timeout == 0)
+ 1247              		.loc 1 273 5 is_stmt 1 view .LVU395
+ 1248              		.loc 1 273 8 is_stmt 0 view .LVU396
+ 1249 012e 14B9     		cbnz	r4, .L98
+ 274:Core/Src/ps2.c ****         return 0xFF;
+ 1250              		.loc 1 274 16 view .LVU397
+ 1251 0130 FF26     		movs	r6, #255
+ 1252              	.LVL192:
+ 1253              		.loc 1 274 16 view .LVU398
+ 1254 0132 00E0     		b	.L98
+ 1255              	.LVL193:
+ 1256              	.L128:
+ 204:Core/Src/ps2.c **** 
+ 1257              		.loc 1 204 16 view .LVU399
+ 1258 0134 FF26     		movs	r6, #255
+ 1259              	.LVL194:
+ 1260              	.L98:
+ 275:Core/Src/ps2.c ****     // response = response & 0x03;
+ARM GAS  /tmp/ccxuCWdP.s 			page 33
+
+
+ 276:Core/Src/ps2.c ****     return data; // Принятый байт от 0 до 0xFE
+ 277:Core/Src/ps2.c **** }
+ 1261              		.loc 1 277 1 view .LVU400
+ 1262 0136 3046     		mov	r0, r6
+ 1263 0138 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1264              	.LVL195:
+ 1265              	.L129:
+ 210:Core/Src/ps2.c **** 
+ 1266              		.loc 1 210 16 view .LVU401
+ 1267 013c FF26     		movs	r6, #255
+ 1268 013e FAE7     		b	.L98
+ 1269              	.L130:
+ 216:Core/Src/ps2.c **** 
+ 1270              		.loc 1 216 16 view .LVU402
+ 1271 0140 FF26     		movs	r6, #255
+ 1272 0142 F8E7     		b	.L98
+ 1273              	.L131:
+ 222:Core/Src/ps2.c **** 
+ 1274              		.loc 1 222 16 view .LVU403
+ 1275 0144 FF26     		movs	r6, #255
+ 1276 0146 F6E7     		b	.L98
+ 1277              	.LVL196:
+ 1278              	.L132:
+ 1279              	.LBB15:
+ 230:Core/Src/ps2.c **** 
+ 1280              		.loc 1 230 20 view .LVU404
+ 1281 0148 FF26     		movs	r6, #255
+ 1282              	.LVL197:
+ 230:Core/Src/ps2.c **** 
+ 1283              		.loc 1 230 20 view .LVU405
+ 1284 014a F4E7     		b	.L98
+ 1285              	.LVL198:
+ 1286              	.L133:
+ 242:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 1287              		.loc 1 242 20 view .LVU406
+ 1288 014c FF26     		movs	r6, #255
+ 1289              	.LVL199:
+ 242:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 1290              		.loc 1 242 20 view .LVU407
+ 1291 014e F2E7     		b	.L98
+ 1292              	.LVL200:
+ 1293              	.L135:
+ 242:Core/Src/ps2.c ****         // Вычисляем бит четности (odd parity)
+ 1294              		.loc 1 242 20 view .LVU408
+ 1295              	.LBE15:
+ 253:Core/Src/ps2.c ****     // parity_bit = data;
+ 1296              		.loc 1 253 16 view .LVU409
+ 1297 0150 FF26     		movs	r6, #255
+ 1298              	.LVL201:
+ 253:Core/Src/ps2.c ****     // parity_bit = data;
+ 1299              		.loc 1 253 16 view .LVU410
+ 1300 0152 F0E7     		b	.L98
+ 1301              	.LVL202:
+ 1302              	.L136:
+ 256:Core/Src/ps2.c ****     timeout = 100000;
+ 1303              		.loc 1 256 16 view .LVU411
+ 1304 0154 FF26     		movs	r6, #255
+ARM GAS  /tmp/ccxuCWdP.s 			page 34
+
+
+ 1305              	.LVL203:
+ 256:Core/Src/ps2.c ****     timeout = 100000;
+ 1306              		.loc 1 256 16 view .LVU412
+ 1307 0156 EEE7     		b	.L98
+ 1308              	.LVL204:
+ 1309              	.L137:
+ 261:Core/Src/ps2.c **** 
+ 1310              		.loc 1 261 16 view .LVU413
+ 1311 0158 FF26     		movs	r6, #255
+ 1312              	.LVL205:
+ 261:Core/Src/ps2.c **** 
+ 1313              		.loc 1 261 16 view .LVU414
+ 1314 015a ECE7     		b	.L98
+ 1315              	.LVL206:
+ 1316              	.L138:
+ 268:Core/Src/ps2.c **** 
+ 1317              		.loc 1 268 16 view .LVU415
+ 1318 015c FF26     		movs	r6, #255
+ 1319              	.LVL207:
+ 268:Core/Src/ps2.c **** 
+ 1320              		.loc 1 268 16 view .LVU416
+ 1321 015e EAE7     		b	.L98
+ 1322              	.L143:
+ 1323              		.align	2
+ 1324              	.L142:
+ 1325 0160 A0860100 		.word	100000
+ 1326 0164 000C0140 		.word	1073810432
+ 1327              		.cfi_endproc
+ 1328              	.LFE66:
+ 1330              		.section	.text.ps2_enable_data_report,"ax",%progbits
+ 1331              		.align	1
+ 1332              		.global	ps2_enable_data_report
+ 1333              		.syntax unified
+ 1334              		.thumb
+ 1335              		.thumb_func
+ 1337              	ps2_enable_data_report:
+ 1338              	.LFB67:
+ 278:Core/Src/ps2.c **** 
+ 279:Core/Src/ps2.c **** // ============================================================
+ 280:Core/Src/ps2.c **** // ==== PS/2: Включение потока данных ====
+ 281:Core/Src/ps2.c **** // ============================================================
+ 282:Core/Src/ps2.c **** void ps2_enable_data_report(void)
+ 283:Core/Src/ps2.c **** {
+ 1339              		.loc 1 283 1 is_stmt 1 view -0
+ 1340              		.cfi_startproc
+ 1341              		@ args = 0, pretend = 0, frame = 0
+ 1342              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1343 0000 08B5     		push	{r3, lr}
+ 1344              	.LCFI2:
+ 1345              		.cfi_def_cfa_offset 8
+ 1346              		.cfi_offset 3, -8
+ 1347              		.cfi_offset 14, -4
+ 284:Core/Src/ps2.c ****     // Команда 0xF4 = Enable Data Reporting
+ 285:Core/Src/ps2.c ****     uint8_t response = ps2_send_cmd(0xF4);
+ 1348              		.loc 1 285 5 view .LVU418
+ 1349              		.loc 1 285 24 is_stmt 0 view .LVU419
+ 1350 0002 F420     		movs	r0, #244
+ARM GAS  /tmp/ccxuCWdP.s 			page 35
+
+
+ 1351 0004 FFF7FEFF 		bl	ps2_send_cmd
+ 1352              	.LVL208:
+ 286:Core/Src/ps2.c ****     HAL_Delay(10);
+ 1353              		.loc 1 286 5 is_stmt 1 view .LVU420
+ 1354 0008 0A20     		movs	r0, #10
+ 1355 000a FFF7FEFF 		bl	HAL_Delay
+ 1356              	.LVL209:
+ 287:Core/Src/ps2.c **** 
+ 288:Core/Src/ps2.c ****     if (response == 0xFA) {
+ 1357              		.loc 1 288 5 view .LVU421
+ 289:Core/Src/ps2.c ****         // Устройство включено
+ 290:Core/Src/ps2.c ****     }
+ 1358              		.loc 1 290 5 view .LVU422
+ 291:Core/Src/ps2.c **** }
+ 1359              		.loc 1 291 1 is_stmt 0 view .LVU423
+ 1360 000e 08BD     		pop	{r3, pc}
+ 1361              		.cfi_endproc
+ 1362              	.LFE67:
+ 1364              		.section	.text.ps2_disable_data_report,"ax",%progbits
+ 1365              		.align	1
+ 1366              		.global	ps2_disable_data_report
+ 1367              		.syntax unified
+ 1368              		.thumb
+ 1369              		.thumb_func
+ 1371              	ps2_disable_data_report:
+ 1372              	.LFB68:
+ 292:Core/Src/ps2.c **** 
+ 293:Core/Src/ps2.c **** // ============================================================
+ 294:Core/Src/ps2.c **** // ==== PS/2: Выключение потока данных ====
+ 295:Core/Src/ps2.c **** // ============================================================
+ 296:Core/Src/ps2.c **** void ps2_disable_data_report(void)
+ 297:Core/Src/ps2.c **** {
+ 1373              		.loc 1 297 1 is_stmt 1 view -0
+ 1374              		.cfi_startproc
+ 1375              		@ args = 0, pretend = 0, frame = 0
+ 1376              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1377 0000 08B5     		push	{r3, lr}
+ 1378              	.LCFI3:
+ 1379              		.cfi_def_cfa_offset 8
+ 1380              		.cfi_offset 3, -8
+ 1381              		.cfi_offset 14, -4
+ 298:Core/Src/ps2.c ****     // Команда 0xF5 = Disable Data Reporting
+ 299:Core/Src/ps2.c ****     uint8_t response = ps2_send_cmd(0xF5);
+ 1382              		.loc 1 299 5 view .LVU425
+ 1383              		.loc 1 299 24 is_stmt 0 view .LVU426
+ 1384 0002 F520     		movs	r0, #245
+ 1385 0004 FFF7FEFF 		bl	ps2_send_cmd
+ 1386              	.LVL210:
+ 300:Core/Src/ps2.c ****     HAL_Delay(10);
+ 1387              		.loc 1 300 5 is_stmt 1 view .LVU427
+ 1388 0008 0A20     		movs	r0, #10
+ 1389 000a FFF7FEFF 		bl	HAL_Delay
+ 1390              	.LVL211:
+ 301:Core/Src/ps2.c **** 
+ 302:Core/Src/ps2.c ****     if (response == 0xFA) {
+ 1391              		.loc 1 302 5 view .LVU428
+ 303:Core/Src/ps2.c ****         // Устройство выключено
+ARM GAS  /tmp/ccxuCWdP.s 			page 36
+
+
+ 304:Core/Src/ps2.c ****     }
+ 1392              		.loc 1 304 5 view .LVU429
+ 305:Core/Src/ps2.c **** }
+ 1393              		.loc 1 305 1 is_stmt 0 view .LVU430
+ 1394 000e 08BD     		pop	{r3, pc}
+ 1395              		.cfi_endproc
+ 1396              	.LFE68:
+ 1398              		.section	.text.ps2_reset_device,"ax",%progbits
+ 1399              		.align	1
+ 1400              		.global	ps2_reset_device
+ 1401              		.syntax unified
+ 1402              		.thumb
+ 1403              		.thumb_func
+ 1405              	ps2_reset_device:
+ 1406              	.LFB69:
+ 306:Core/Src/ps2.c **** 
+ 307:Core/Src/ps2.c **** // ============================================================
+ 308:Core/Src/ps2.c **** // ==== PS/2: Сброс устройства ====
+ 309:Core/Src/ps2.c **** // ============================================================
+ 310:Core/Src/ps2.c **** uint8_t ps2_reset_device(void)
+ 311:Core/Src/ps2.c **** {
+ 1407              		.loc 1 311 1 is_stmt 1 view -0
+ 1408              		.cfi_startproc
+ 1409              		@ args = 0, pretend = 0, frame = 0
+ 1410              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1411 0000 08B5     		push	{r3, lr}
+ 1412              	.LCFI4:
+ 1413              		.cfi_def_cfa_offset 8
+ 1414              		.cfi_offset 3, -8
+ 1415              		.cfi_offset 14, -4
+ 312:Core/Src/ps2.c ****     // Команда 0xFF = Reset
+ 313:Core/Src/ps2.c ****     // uint8_t response = ps2_send_cmd(0xFF);
+ 314:Core/Src/ps2.c ****     uint8_t response = ps2_send_cmd(0xFF);
+ 1416              		.loc 1 314 5 view .LVU432
+ 1417              		.loc 1 314 24 is_stmt 0 view .LVU433
+ 1418 0002 FF20     		movs	r0, #255
+ 1419 0004 FFF7FEFF 		bl	ps2_send_cmd
+ 1420              	.LVL212:
+ 315:Core/Src/ps2.c ****     // HAL_Delay(2);
+ 316:Core/Src/ps2.c **** 
+ 317:Core/Src/ps2.c ****     if (response == 0xFA) {
+ 1421              		.loc 1 317 5 is_stmt 1 view .LVU434
+ 318:Core/Src/ps2.c ****         // Устройство сброшено
+ 319:Core/Src/ps2.c ****         // HAL_GPIO_WritePin (GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+ 320:Core/Src/ps2.c ****     }
+ 1422              		.loc 1 320 5 view .LVU435
+ 321:Core/Src/ps2.c ****     return response;
+ 1423              		.loc 1 321 5 view .LVU436
+ 322:Core/Src/ps2.c **** }
+ 1424              		.loc 1 322 1 is_stmt 0 view .LVU437
+ 1425 0008 08BD     		pop	{r3, pc}
+ 1426              		.cfi_endproc
+ 1427              	.LFE69:
+ 1429              		.section	.text.ps2_request_data,"ax",%progbits
+ 1430              		.align	1
+ 1431              		.global	ps2_request_data
+ 1432              		.syntax unified
+ARM GAS  /tmp/ccxuCWdP.s 			page 37
+
+
+ 1433              		.thumb
+ 1434              		.thumb_func
+ 1436              	ps2_request_data:
+ 1437              	.LFB70:
+ 323:Core/Src/ps2.c **** 
+ 324:Core/Src/ps2.c **** uint8_t ps2_request_data()
+ 325:Core/Src/ps2.c **** {
+ 1438              		.loc 1 325 1 is_stmt 1 view -0
+ 1439              		.cfi_startproc
+ 1440              		@ args = 0, pretend = 0, frame = 0
+ 1441              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1442 0000 08B5     		push	{r3, lr}
+ 1443              	.LCFI5:
+ 1444              		.cfi_def_cfa_offset 8
+ 1445              		.cfi_offset 3, -8
+ 1446              		.cfi_offset 14, -4
+ 326:Core/Src/ps2.c ****     uint8_t response = ps2_send_cmd(0xEB);
+ 1447              		.loc 1 326 5 view .LVU439
+ 1448              		.loc 1 326 24 is_stmt 0 view .LVU440
+ 1449 0002 EB20     		movs	r0, #235
+ 1450 0004 FFF7FEFF 		bl	ps2_send_cmd
+ 1451              	.LVL213:
+ 327:Core/Src/ps2.c ****     // HAL_Delay(2);
+ 328:Core/Src/ps2.c **** 
+ 329:Core/Src/ps2.c ****     if (response == 0xFA) {
+ 1452              		.loc 1 329 5 is_stmt 1 view .LVU441
+ 330:Core/Src/ps2.c ****         // Устройство сброшено
+ 331:Core/Src/ps2.c ****         // HAL_GPIO_WritePin (GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+ 332:Core/Src/ps2.c ****     }
+ 1453              		.loc 1 332 5 view .LVU442
+ 333:Core/Src/ps2.c ****     return response;
+ 1454              		.loc 1 333 5 view .LVU443
+ 334:Core/Src/ps2.c **** }
+ 1455              		.loc 1 334 1 is_stmt 0 view .LVU444
+ 1456 0008 08BD     		pop	{r3, pc}
+ 1457              		.cfi_endproc
+ 1458              	.LFE70:
+ 1460              		.section	.text.tp_init,"ax",%progbits
+ 1461              		.align	1
+ 1462              		.global	tp_init
+ 1463              		.syntax unified
+ 1464              		.thumb
+ 1465              		.thumb_func
+ 1467              	tp_init:
+ 1468              	.LFB71:
+ 335:Core/Src/ps2.c **** 
+ 336:Core/Src/ps2.c **** // Инициализация тачпада
+ 337:Core/Src/ps2.c **** void tp_init(void)
+ 338:Core/Src/ps2.c **** {
+ 1469              		.loc 1 338 1 is_stmt 1 view -0
+ 1470              		.cfi_startproc
+ 1471              		@ args = 0, pretend = 0, frame = 0
+ 1472              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1473 0000 08B5     		push	{r3, lr}
+ 1474              	.LCFI6:
+ 1475              		.cfi_def_cfa_offset 8
+ 1476              		.cfi_offset 3, -8
+ARM GAS  /tmp/ccxuCWdP.s 			page 38
+
+
+ 1477              		.cfi_offset 14, -4
+ 339:Core/Src/ps2.c ****     uint8_t resp = 0;
+ 1478              		.loc 1 339 5 view .LVU446
+ 1479              	.LVL214:
+ 340:Core/Src/ps2.c ****     // Сброс тачпада
+ 341:Core/Src/ps2.c ****     resp = ps2_reset_device();
+ 1480              		.loc 1 341 5 view .LVU447
+ 1481              		.loc 1 341 12 is_stmt 0 view .LVU448
+ 1482 0002 FFF7FEFF 		bl	ps2_reset_device
+ 1483              	.LVL215:
+ 342:Core/Src/ps2.c ****     // ps2_enable_data_report();
+ 343:Core/Src/ps2.c ****     if (resp == 0xFA) {
+ 1484              		.loc 1 343 5 is_stmt 1 view .LVU449
+ 344:Core/Src/ps2.c ****         // Тачпад ответил на сброс
+ 345:Core/Src/ps2.c ****         // HAL_GPIO_WritePin (GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+ 346:Core/Src/ps2.c ****     }
+ 1485              		.loc 1 346 5 view .LVU450
+ 347:Core/Src/ps2.c ****     HAL_Delay(1);
+ 1486              		.loc 1 347 5 view .LVU451
+ 1487 0006 0120     		movs	r0, #1
+ 1488 0008 FFF7FEFF 		bl	HAL_Delay
+ 1489              	.LVL216:
+ 348:Core/Src/ps2.c ****     resp = ps2_send_cmd(0xF0);
+ 1490              		.loc 1 348 5 view .LVU452
+ 1491              		.loc 1 348 12 is_stmt 0 view .LVU453
+ 1492 000c F020     		movs	r0, #240
+ 1493 000e FFF7FEFF 		bl	ps2_send_cmd
+ 1494              	.LVL217:
+ 349:Core/Src/ps2.c ****     if (resp == 0xFA) {
+ 1495              		.loc 1 349 5 is_stmt 1 view .LVU454
+ 350:Core/Src/ps2.c ****         // Тачпад ответил на сброс
+ 351:Core/Src/ps2.c ****         // HAL_GPIO_WritePin (GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+ 352:Core/Src/ps2.c ****     }
+ 1496              		.loc 1 352 5 view .LVU455
+ 353:Core/Src/ps2.c ****     HAL_Delay(1);
+ 1497              		.loc 1 353 5 view .LVU456
+ 1498 0012 0120     		movs	r0, #1
+ 1499 0014 FFF7FEFF 		bl	HAL_Delay
+ 1500              	.LVL218:
+ 354:Core/Src/ps2.c **** }
+ 1501              		.loc 1 354 1 is_stmt 0 view .LVU457
+ 1502 0018 08BD     		pop	{r3, pc}
+ 1503              		.cfi_endproc
+ 1504              	.LFE71:
+ 1506              		.text
+ 1507              	.Letext0:
+ 1508              		.file 2 "/usr/lib/gcc/arm-none-eabi/14.2.1/include/stdint.h"
+ 1509              		.file 3 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 1510              		.file 4 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 1511              		.file 5 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 1512              		.file 6 "Core/Inc/main.h"
+ARM GAS  /tmp/ccxuCWdP.s 			page 39
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ps2.c
+     /tmp/ccxuCWdP.s:19     .text.ps2_send_cmd:00000000 $t
+     /tmp/ccxuCWdP.s:25     .text.ps2_send_cmd:00000000 ps2_send_cmd
+     /tmp/ccxuCWdP.s:685    .text.ps2_send_cmd:0000026c $d
+     /tmp/ccxuCWdP.s:691    .text.ps2_send_cmd:00000274 $t
+     /tmp/ccxuCWdP.s:884    .text.ps2_send_cmd:000002f0 $d
+     /tmp/ccxuCWdP.s:890    .text.ps2_read_byte:00000000 $t
+     /tmp/ccxuCWdP.s:896    .text.ps2_read_byte:00000000 ps2_read_byte
+     /tmp/ccxuCWdP.s:1325   .text.ps2_read_byte:00000160 $d
+     /tmp/ccxuCWdP.s:1331   .text.ps2_enable_data_report:00000000 $t
+     /tmp/ccxuCWdP.s:1337   .text.ps2_enable_data_report:00000000 ps2_enable_data_report
+     /tmp/ccxuCWdP.s:1365   .text.ps2_disable_data_report:00000000 $t
+     /tmp/ccxuCWdP.s:1371   .text.ps2_disable_data_report:00000000 ps2_disable_data_report
+     /tmp/ccxuCWdP.s:1399   .text.ps2_reset_device:00000000 $t
+     /tmp/ccxuCWdP.s:1405   .text.ps2_reset_device:00000000 ps2_reset_device
+     /tmp/ccxuCWdP.s:1430   .text.ps2_request_data:00000000 $t
+     /tmp/ccxuCWdP.s:1436   .text.ps2_request_data:00000000 ps2_request_data
+     /tmp/ccxuCWdP.s:1461   .text.tp_init:00000000 $t
+     /tmp/ccxuCWdP.s:1467   .text.tp_init:00000000 tp_init
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_GPIO_ReadPin
+delay_us
+HAL_Delay

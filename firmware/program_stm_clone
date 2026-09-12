@@ -1,0 +1,3 @@
+#!/bin/bash
+
+openocd -f interface/stlink.cfg -f target/stm32f1x_clone.cfg -c "program build/usb_keyboard.elf verify reset exit"
