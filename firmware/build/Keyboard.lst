@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccPukwhd.s 			page 1
+ARM GAS  /tmp/ccQY94oY.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccPukwhd.s 			page 1
   29:Core/Src/Keyboard.c ****     { GPIOA, GPIO_PIN_4 },
   30:Core/Src/Keyboard.c ****     { GPIOB, GPIO_PIN_3 },
   31:Core/Src/Keyboard.c ****     { GPIOA, GPIO_PIN_5 },
-ARM GAS  /tmp/ccPukwhd.s 			page 2
+ARM GAS  /tmp/ccQY94oY.s 			page 2
 
 
   32:Core/Src/Keyboard.c ****     { GPIOA, GPIO_PIN_6 },
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccPukwhd.s 			page 1
   86:Core/Src/Keyboard.c ****     { 0, 0, 0, 0, 0, 0, 0, 0 },
   87:Core/Src/Keyboard.c ****     { 0, 0, 0, 0, 0, 0, 0, 0 },
   88:Core/Src/Keyboard.c ****     { 0, 0, 0, 0, 0, 0, 0, 0 },
-ARM GAS  /tmp/ccPukwhd.s 			page 3
+ARM GAS  /tmp/ccQY94oY.s 			page 3
 
 
   89:Core/Src/Keyboard.c ****     { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -170,727 +170,718 @@ ARM GAS  /tmp/ccPukwhd.s 			page 1
   51              		.loc 1 111 5 view .LVU4
   52              		.loc 1 111 16 is_stmt 0 view .LVU5
   53 0008 0023     		movs	r3, #0
-  54 000a 284A     		ldr	r2, .L14
+  54 000a 2A4A     		ldr	r2, .L15
   55 000c 1370     		strb	r3, [r2]
- 112:Core/Src/Keyboard.c **** 
- 113:Core/Src/Keyboard.c ****     // Очищаем массив клавиш
- 114:Core/Src/Keyboard.c ****     for (int i = 0; i < max_keys; i++) {
-  56              		.loc 1 114 5 is_stmt 1 view .LVU6
+ 112:Core/Src/Keyboard.c ****     // Очищаем массив клавиш
+ 113:Core/Src/Keyboard.c ****     for (int i = 0; i < max_keys; i++) {
+  56              		.loc 1 113 5 is_stmt 1 view .LVU6
   57              	.LBB2:
-  58              		.loc 1 114 10 view .LVU7
-ARM GAS  /tmp/ccPukwhd.s 			page 4
-
-
+  58              		.loc 1 113 10 view .LVU7
   59              	.LVL2:
-  60              		.loc 1 114 5 is_stmt 0 view .LVU8
+ARM GAS  /tmp/ccQY94oY.s 			page 4
+
+
+  60              		.loc 1 113 5 is_stmt 0 view .LVU8
   61 000e 03E0     		b	.L2
   62              	.LVL3:
   63              	.L3:
- 115:Core/Src/Keyboard.c ****         keys[i] = 0;
-  64              		.loc 1 115 9 is_stmt 1 view .LVU9
-  65              		.loc 1 115 17 is_stmt 0 view .LVU10
+ 114:Core/Src/Keyboard.c ****         keys[i] = 0;
+  64              		.loc 1 114 9 is_stmt 1 view .LVU9
+  65              		.loc 1 114 17 is_stmt 0 view .LVU10
   66 0010 0022     		movs	r2, #0
   67 0012 0BF80320 		strb	r2, [fp, r3]
- 114:Core/Src/Keyboard.c ****         keys[i] = 0;
-  68              		.loc 1 114 36 is_stmt 1 discriminator 3 view .LVU11
+ 113:Core/Src/Keyboard.c ****         keys[i] = 0;
+  68              		.loc 1 113 36 is_stmt 1 discriminator 3 view .LVU11
   69 0016 0133     		adds	r3, r3, #1
   70              	.LVL4:
   71              	.L2:
- 114:Core/Src/Keyboard.c ****         keys[i] = 0;
-  72              		.loc 1 114 23 discriminator 1 view .LVU12
+ 113:Core/Src/Keyboard.c ****         keys[i] = 0;
+  72              		.loc 1 113 23 discriminator 1 view .LVU12
   73 0018 9A45     		cmp	r10, r3
   74 001a F9DC     		bgt	.L3
   75              	.LBE2:
   76              	.LBB3:
- 116:Core/Src/Keyboard.c ****     }
- 117:Core/Src/Keyboard.c **** 
- 118:Core/Src/Keyboard.c ****     for (int row = 0; row < ROWS; row++) {
-  77              		.loc 1 118 14 is_stmt 0 view .LVU13
+ 115:Core/Src/Keyboard.c ****     }
+ 116:Core/Src/Keyboard.c **** 
+ 117:Core/Src/Keyboard.c ****     for (int row = 0; row < ROWS; row++) {
+  77              		.loc 1 117 14 is_stmt 0 view .LVU13
   78 001c 0025     		movs	r5, #0
   79              	.LBE3:
  108:Core/Src/Keyboard.c **** 
   80              		.loc 1 108 13 view .LVU14
-  81 001e 2E46     		mov	r6, r5
+  81 001e A846     		mov	r8, r5
  107:Core/Src/Keyboard.c ****     uint8_t modifier_mask = 0;
   82              		.loc 1 107 13 view .LVU15
   83 0020 A946     		mov	r9, r5
-  84 0022 2BE0     		b	.L4
+  84 0022 2EE0     		b	.L4
   85              	.LVL5:
-  86              	.L8:
+  86              	.L13:
   87              	.LBB6:
   88              	.LBB4:
- 119:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_RESET);
- 120:Core/Src/Keyboard.c **** 
- 121:Core/Src/Keyboard.c ****         // for (int debounce = 0; debounce < 5; debounce++)
- 122:Core/Src/Keyboard.c ****         delay_us(10);
- 123:Core/Src/Keyboard.c **** 
- 124:Core/Src/Keyboard.c ****         for (int col = 0; col < COLS; col++) {
- 125:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 126:Core/Src/Keyboard.c **** 
- 127:Core/Src/Keyboard.c ****                 // ===== ПРОВЕРЯЕМ FN =====
- 128:Core/Src/Keyboard.c ****                 if (modifier[row][col] == KEY_FN) {
- 129:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
- 130:Core/Src/Keyboard.c ****                 }
- 131:Core/Src/Keyboard.c **** 
- 132:Core/Src/Keyboard.c ****                 // ===== МОДИФИКАТОРЫ =====
- 133:Core/Src/Keyboard.c ****                 if (modifier[row][col] != 0) {
- 134:Core/Src/Keyboard.c ****                     modifier_mask |= modifier[row][col];
- 135:Core/Src/Keyboard.c ****                 }
- 136:Core/Src/Keyboard.c ****                 // ===== ОБЫЧНЫЕ КЛАВИШИ =====
- 137:Core/Src/Keyboard.c ****                 else if (normal[row][col] != 0) {
-ARM GAS  /tmp/ccPukwhd.s 			page 5
-
-
-  89              		.loc 1 137 22 is_stmt 1 view .LVU16
-  90              		.loc 1 137 37 is_stmt 0 view .LVU17
-  91 0024 224B     		ldr	r3, .L14+4
-  92 0026 03EBC503 		add	r3, r3, r5, lsl #3
-  93 002a 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
-  94              		.loc 1 137 25 view .LVU18
-  95 002c 3BB1     		cbz	r3, .L6
- 138:Core/Src/Keyboard.c ****                     if (count < max_keys) {
-  96              		.loc 1 138 21 is_stmt 1 view .LVU19
-  97              		.loc 1 138 24 is_stmt 0 view .LVU20
-  98 002e D145     		cmp	r9, r10
-  99 0030 05D2     		bcs	.L6
- 139:Core/Src/Keyboard.c ****                         keys[count++] = normal[row][col];
- 100              		.loc 1 139 25 is_stmt 1 view .LVU21
- 101              		.loc 1 139 35 is_stmt 0 view .LVU22
- 102 0032 09F10102 		add	r2, r9, #1
- 103              	.LVL6:
- 104              		.loc 1 139 39 view .LVU23
- 105 0036 0BF80930 		strb	r3, [fp, r9]
- 106              		.loc 1 139 35 view .LVU24
- 107 003a 5FFA82F9 		uxtb	r9, r2
- 108              	.LVL7:
- 109              	.L6:
- 124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 110              		.loc 1 124 42 is_stmt 1 discriminator 2 view .LVU25
- 111 003e 0134     		adds	r4, r4, #1
- 112              	.LVL8:
- 113              	.L5:
- 124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 114              		.loc 1 124 31 discriminator 1 view .LVU26
- 115 0040 072C     		cmp	r4, #7
- 116 0042 15DC     		bgt	.L12
- 125:Core/Src/Keyboard.c **** 
- 117              		.loc 1 125 13 view .LVU27
- 125:Core/Src/Keyboard.c **** 
- 118              		.loc 1 125 47 is_stmt 0 view .LVU28
- 119 0044 1B4B     		ldr	r3, .L14+8
- 125:Core/Src/Keyboard.c **** 
- 120              		.loc 1 125 67 view .LVU29
- 121 0046 03EBC402 		add	r2, r3, r4, lsl #3
- 125:Core/Src/Keyboard.c **** 
- 122              		.loc 1 125 17 view .LVU30
- 123 004a 9188     		ldrh	r1, [r2, #4]
- 124 004c 53F83400 		ldr	r0, [r3, r4, lsl #3]
- 125 0050 FFF7FEFF 		bl	HAL_GPIO_ReadPin
- 126              	.LVL9:
- 125:Core/Src/Keyboard.c **** 
- 127              		.loc 1 125 16 discriminator 1 view .LVU31
- 128 0054 0028     		cmp	r0, #0
- 129 0056 F2D1     		bne	.L6
- 128:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
- 130              		.loc 1 128 17 is_stmt 1 view .LVU32
- 128:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
- 131              		.loc 1 128 34 is_stmt 0 view .LVU33
- 132 0058 174B     		ldr	r3, .L14+12
- 133 005a 03EBC503 		add	r3, r3, r5, lsl #3
- 134 005e 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
-ARM GAS  /tmp/ccPukwhd.s 			page 6
-
-
- 128:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
- 135              		.loc 1 128 20 view .LVU34
- 136 0060 13B9     		cbnz	r3, .L7
- 129:Core/Src/Keyboard.c ****                 }
- 137              		.loc 1 129 21 is_stmt 1 view .LVU35
- 129:Core/Src/Keyboard.c ****                 }
- 138              		.loc 1 129 32 is_stmt 0 view .LVU36
- 139 0062 124A     		ldr	r2, .L14
- 140 0064 0121     		movs	r1, #1
- 141 0066 1170     		strb	r1, [r2]
- 142              	.L7:
- 133:Core/Src/Keyboard.c ****                     modifier_mask |= modifier[row][col];
- 143              		.loc 1 133 17 is_stmt 1 view .LVU37
- 133:Core/Src/Keyboard.c ****                     modifier_mask |= modifier[row][col];
- 144              		.loc 1 133 20 is_stmt 0 view .LVU38
- 145 0068 002B     		cmp	r3, #0
- 146 006a DBD0     		beq	.L8
- 134:Core/Src/Keyboard.c ****                 }
- 147              		.loc 1 134 21 is_stmt 1 view .LVU39
- 134:Core/Src/Keyboard.c ****                 }
- 148              		.loc 1 134 35 is_stmt 0 view .LVU40
- 149 006c 1E43     		orrs	r6, r6, r3
- 150              	.LVL10:
- 134:Core/Src/Keyboard.c ****                 }
- 151              		.loc 1 134 35 view .LVU41
- 152 006e E6E7     		b	.L6
- 153              	.L12:
- 134:Core/Src/Keyboard.c ****                 }
- 154              		.loc 1 134 35 view .LVU42
- 155              	.LBE4:
- 140:Core/Src/Keyboard.c ****                     }
- 141:Core/Src/Keyboard.c ****                 }
- 142:Core/Src/Keyboard.c ****             }
- 143:Core/Src/Keyboard.c ****         }
- 144:Core/Src/Keyboard.c **** 
- 145:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_SET);
- 156              		.loc 1 145 9 is_stmt 1 view .LVU43
- 157 0070 0122     		movs	r2, #1
- 158 0072 4146     		mov	r1, r8
- 159 0074 3846     		mov	r0, r7
- 160 0076 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 161              	.LVL11:
  118:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_RESET);
- 162              		.loc 1 118 38 discriminator 2 view .LVU44
- 163 007a 0135     		adds	r5, r5, #1
- 164              	.LVL12:
- 165              	.L4:
- 118:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_RESET);
- 166              		.loc 1 118 27 discriminator 1 view .LVU45
- 167 007c 0F2D     		cmp	r5, #15
- 168 007e 10DC     		bgt	.L13
  119:Core/Src/Keyboard.c **** 
- 169              		.loc 1 119 9 view .LVU46
- 119:Core/Src/Keyboard.c **** 
- 170              		.loc 1 119 40 is_stmt 0 view .LVU47
- 171 0080 0E4B     		ldr	r3, .L14+16
- 172 0082 53F83570 		ldr	r7, [r3, r5, lsl #3]
-ARM GAS  /tmp/ccPukwhd.s 			page 7
-
-
- 119:Core/Src/Keyboard.c **** 
- 173              		.loc 1 119 60 view .LVU48
- 174 0086 03EBC503 		add	r3, r3, r5, lsl #3
- 175 008a B3F80480 		ldrh	r8, [r3, #4]
- 119:Core/Src/Keyboard.c **** 
- 176              		.loc 1 119 9 view .LVU49
- 177 008e 0022     		movs	r2, #0
- 178 0090 4146     		mov	r1, r8
- 179 0092 3846     		mov	r0, r7
- 180 0094 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 181              	.LVL13:
+ 120:Core/Src/Keyboard.c ****         // for (int debounce = 0; debounce < 5; debounce++)
+ 121:Core/Src/Keyboard.c ****         delay_us(10);
  122:Core/Src/Keyboard.c **** 
- 182              		.loc 1 122 9 is_stmt 1 view .LVU50
- 183 0098 0A20     		movs	r0, #10
- 184 009a FFF7FEFF 		bl	delay_us
- 185              	.LVL14:
+ 123:Core/Src/Keyboard.c ****         for (int col = 0; col < COLS; col++) {
  124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 186              		.loc 1 124 9 view .LVU51
- 187              	.LBB5:
- 124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 188              		.loc 1 124 14 view .LVU52
- 124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 189              		.loc 1 124 18 is_stmt 0 view .LVU53
- 190 009e 0024     		movs	r4, #0
- 124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 191              		.loc 1 124 9 view .LVU54
- 192 00a0 CEE7     		b	.L5
- 193              	.LVL15:
- 194              	.L13:
- 124:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
- 195              		.loc 1 124 9 view .LVU55
- 196              	.LBE5:
- 197              	.LBE6:
- 146:Core/Src/Keyboard.c ****     }
- 147:Core/Src/Keyboard.c **** 
- 148:Core/Src/Keyboard.c ****     // ===== СОХРАНЯЕМ МОДИФИКАТОРЫ (ГЛОБАЛЬНО!) =====
- 149:Core/Src/Keyboard.c ****     current_modifiers = modifier_mask;
- 198              		.loc 1 149 5 is_stmt 1 view .LVU56
- 199              		.loc 1 149 23 is_stmt 0 view .LVU57
- 200 00a2 074B     		ldr	r3, .L14+20
- 201 00a4 1E70     		strb	r6, [r3]
- 150:Core/Src/Keyboard.c **** 
- 151:Core/Src/Keyboard.c ****     return count;
- 202              		.loc 1 151 5 is_stmt 1 view .LVU58
- 152:Core/Src/Keyboard.c **** }
- 203              		.loc 1 152 1 is_stmt 0 view .LVU59
- 204 00a6 4846     		mov	r0, r9
- 205 00a8 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
- 206              	.LVL16:
- 207              	.L15:
- 208              		.loc 1 152 1 view .LVU60
- 209              		.align	2
- 210              	.L14:
- 211 00ac 00000000 		.word	fn_pressed
- 212 00b0 00000000 		.word	normal
- 213 00b4 00000000 		.word	COL_Pins
- 214 00b8 00000000 		.word	modifier
-ARM GAS  /tmp/ccPukwhd.s 			page 8
+ 125:Core/Src/Keyboard.c **** 
+ 126:Core/Src/Keyboard.c ****                 // ===== ПРОВЕРЯЕМ FN =====
+ 127:Core/Src/Keyboard.c ****                 if (modifier[row][col] == KEY_FN) {
+ 128:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
+  89              		.loc 1 128 21 is_stmt 1 view .LVU16
+  90              		.loc 1 128 32 is_stmt 0 view .LVU17
+  91 0024 234B     		ldr	r3, .L15
+  92 0026 0122     		movs	r2, #1
+  93 0028 1A70     		strb	r2, [r3]
+  94              	.LVL6:
+  95              	.L6:
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+  96              		.loc 1 123 42 is_stmt 1 discriminator 2 view .LVU18
+ARM GAS  /tmp/ccQY94oY.s 			page 5
 
 
- 215 00bc 00000000 		.word	ROW_Pins
- 216 00c0 00000000 		.word	current_modifiers
- 217              		.cfi_endproc
- 218              	.LFE65:
- 220              		.section	.text.keyboard_has_changed,"ax",%progbits
- 221              		.align	1
- 222              		.global	keyboard_has_changed
- 223              		.syntax unified
- 224              		.thumb
- 225              		.thumb_func
- 227              	keyboard_has_changed:
- 228              	.LVL17:
- 229              	.LFB66:
- 153:Core/Src/Keyboard.c **** 
- 154:Core/Src/Keyboard.c **** // ===== ПРОВЕРКА ИЗМЕНЕНИЙ =====
- 155:Core/Src/Keyboard.c **** uint8_t keyboard_has_changed(uint8_t* current, uint8_t* previous, uint8_t size)
- 156:Core/Src/Keyboard.c **** {
- 230              		.loc 1 156 1 is_stmt 1 view -0
- 231              		.cfi_startproc
- 232              		@ args = 0, pretend = 0, frame = 0
- 233              		@ frame_needed = 0, uses_anonymous_args = 0
- 157:Core/Src/Keyboard.c ****     // Сначала проверяем модификаторы
- 158:Core/Src/Keyboard.c ****     if (current_modifiers != last_modifiers) {
- 234              		.loc 1 158 5 view .LVU62
- 235              		.loc 1 158 27 is_stmt 0 view .LVU63
- 236 0000 0E4B     		ldr	r3, .L29
- 237 0002 93F800C0 		ldrb	ip, [r3]	@ zero_extendqisi2
- 238 0006 0E4B     		ldr	r3, .L29+4
- 239 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 240              		.loc 1 158 8 view .LVU64
- 241 000a 9C45     		cmp	ip, r3
- 242 000c 0FD1     		bne	.L20
- 243              	.LBB7:
- 159:Core/Src/Keyboard.c ****         return 1;
- 160:Core/Src/Keyboard.c ****     }
- 161:Core/Src/Keyboard.c **** 
- 162:Core/Src/Keyboard.c ****     // Потом клавиши
- 163:Core/Src/Keyboard.c ****     for (int i = 0; i < size; i++) {
- 244              		.loc 1 163 14 view .LVU65
- 245 000e 0023     		movs	r3, #0
- 246              	.LVL18:
- 247              		.loc 1 163 23 is_stmt 1 discriminator 1 view .LVU66
- 248 0010 9A42     		cmp	r2, r3
- 249 0012 10DD     		ble	.L28
- 250              	.LBE7:
- 156:Core/Src/Keyboard.c ****     // Сначала проверяем модификаторы
- 251              		.loc 1 156 1 is_stmt 0 view .LVU67
- 252 0014 00B5     		push	{lr}
- 253              	.LCFI1:
- 254              		.cfi_def_cfa_offset 4
- 255              		.cfi_offset 14, -4
- 256              	.L19:
- 257              	.LBB8:
- 164:Core/Src/Keyboard.c ****         if (current[i] != previous[i]) {
- 258              		.loc 1 164 9 is_stmt 1 view .LVU68
- 259              		.loc 1 164 20 is_stmt 0 view .LVU69
- 260 0016 10F803E0 		ldrb	lr, [r0, r3]	@ zero_extendqisi2
-ARM GAS  /tmp/ccPukwhd.s 			page 9
+  97 002a 0134     		adds	r4, r4, #1
+  98              	.LVL7:
+  99              	.L5:
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+ 100              		.loc 1 123 31 discriminator 1 view .LVU19
+ 101 002c 072C     		cmp	r4, #7
+ 102 002e 22DC     		bgt	.L12
+ 124:Core/Src/Keyboard.c **** 
+ 103              		.loc 1 124 13 view .LVU20
+ 124:Core/Src/Keyboard.c **** 
+ 104              		.loc 1 124 47 is_stmt 0 view .LVU21
+ 105 0030 214B     		ldr	r3, .L15+4
+ 124:Core/Src/Keyboard.c **** 
+ 106              		.loc 1 124 67 view .LVU22
+ 107 0032 03EBC402 		add	r2, r3, r4, lsl #3
+ 124:Core/Src/Keyboard.c **** 
+ 108              		.loc 1 124 17 view .LVU23
+ 109 0036 9188     		ldrh	r1, [r2, #4]
+ 110 0038 53F83400 		ldr	r0, [r3, r4, lsl #3]
+ 111 003c FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 112              	.LVL8:
+ 124:Core/Src/Keyboard.c **** 
+ 113              		.loc 1 124 16 discriminator 1 view .LVU24
+ 114 0040 0028     		cmp	r0, #0
+ 115 0042 F2D1     		bne	.L6
+ 127:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
+ 116              		.loc 1 127 17 is_stmt 1 view .LVU25
+ 127:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
+ 117              		.loc 1 127 34 is_stmt 0 view .LVU26
+ 118 0044 1D4B     		ldr	r3, .L15+8
+ 119 0046 03EBC503 		add	r3, r3, r5, lsl #3
+ 120 004a 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+ 127:Core/Src/Keyboard.c ****                     fn_pressed = 1; // <-- FN НАЖАТА!
+ 121              		.loc 1 127 20 view .LVU27
+ 122 004c 832B     		cmp	r3, #131
+ 123 004e E9D0     		beq	.L13
+ 129:Core/Src/Keyboard.c ****                 } else if (modifier[row][col] != 0) {
+ 124              		.loc 1 129 24 is_stmt 1 view .LVU28
+ 125              		.loc 1 129 27 is_stmt 0 view .LVU29
+ 126 0050 13B1     		cbz	r3, .L8
+ 130:Core/Src/Keyboard.c ****                     modifier_mask |= modifier[row][col];
+ 127              		.loc 1 130 21 is_stmt 1 view .LVU30
+ 128              		.loc 1 130 35 is_stmt 0 view .LVU31
+ 129 0052 43EA0808 		orr	r8, r3, r8
+ 130              	.LVL9:
+ 131              		.loc 1 130 35 view .LVU32
+ 132 0056 E8E7     		b	.L6
+ 133              	.L8:
+ 131:Core/Src/Keyboard.c ****                 }
+ 132:Core/Src/Keyboard.c ****                 // ===== ОБЫЧНЫЕ КЛАВИШИ =====
+ 133:Core/Src/Keyboard.c ****                 else if (normal[row][col] != 0) {
+ 134              		.loc 1 133 22 is_stmt 1 view .LVU33
+ 135              		.loc 1 133 37 is_stmt 0 view .LVU34
+ 136 0058 194B     		ldr	r3, .L15+12
+ 137 005a 03EBC503 		add	r3, r3, r5, lsl #3
+ 138 005e 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+ 139              		.loc 1 133 25 view .LVU35
+ARM GAS  /tmp/ccQY94oY.s 			page 6
 
 
- 261              		.loc 1 164 35 view .LVU70
- 262 001a 11F803C0 		ldrb	ip, [r1, r3]	@ zero_extendqisi2
- 263              		.loc 1 164 12 view .LVU71
- 264 001e E645     		cmp	lr, ip
- 265 0020 07D1     		bne	.L21
- 163:Core/Src/Keyboard.c ****         if (current[i] != previous[i]) {
- 266              		.loc 1 163 32 is_stmt 1 discriminator 2 view .LVU72
- 267 0022 0133     		adds	r3, r3, #1
- 268              	.LVL19:
- 163:Core/Src/Keyboard.c ****         if (current[i] != previous[i]) {
- 269              		.loc 1 163 23 discriminator 1 view .LVU73
- 270 0024 9A42     		cmp	r2, r3
- 271 0026 F6DC     		bgt	.L19
- 272              	.LBE8:
- 165:Core/Src/Keyboard.c ****             return 1;
- 166:Core/Src/Keyboard.c ****         }
- 167:Core/Src/Keyboard.c ****     }
- 168:Core/Src/Keyboard.c ****     return 0;
- 273              		.loc 1 168 12 is_stmt 0 view .LVU74
- 274 0028 0020     		movs	r0, #0
- 275              	.LVL20:
- 276              	.L17:
- 169:Core/Src/Keyboard.c **** }
- 277              		.loc 1 169 1 view .LVU75
- 278 002a 5DF804FB 		ldr	pc, [sp], #4
- 279              	.LVL21:
- 280              	.L20:
- 281              	.LCFI2:
- 282              		.cfi_def_cfa_offset 0
- 283              		.cfi_restore 14
- 159:Core/Src/Keyboard.c ****     }
- 284              		.loc 1 159 16 view .LVU76
- 285 002e 0120     		movs	r0, #1
- 286              	.LVL22:
- 159:Core/Src/Keyboard.c ****     }
- 287              		.loc 1 159 16 view .LVU77
- 288 0030 7047     		bx	lr
+ 140 0060 002B     		cmp	r3, #0
+ 141 0062 E2D0     		beq	.L6
+ 134:Core/Src/Keyboard.c ****                     if (count < max_keys) {
+ 142              		.loc 1 134 21 is_stmt 1 view .LVU36
+ 143              		.loc 1 134 24 is_stmt 0 view .LVU37
+ 144 0064 D145     		cmp	r9, r10
+ 145 0066 E0D2     		bcs	.L6
+ 135:Core/Src/Keyboard.c ****                         keys[count++] = normal[row][col];
+ 146              		.loc 1 135 25 is_stmt 1 view .LVU38
+ 147              		.loc 1 135 35 is_stmt 0 view .LVU39
+ 148 0068 09F10102 		add	r2, r9, #1
+ 149              	.LVL10:
+ 150              		.loc 1 135 39 view .LVU40
+ 151 006c 0BF80930 		strb	r3, [fp, r9]
+ 152              		.loc 1 135 35 view .LVU41
+ 153 0070 5FFA82F9 		uxtb	r9, r2
+ 154 0074 D9E7     		b	.L6
+ 155              	.LVL11:
+ 156              	.L12:
+ 157              		.loc 1 135 35 view .LVU42
+ 158              	.LBE4:
+ 136:Core/Src/Keyboard.c ****                     }
+ 137:Core/Src/Keyboard.c ****                 }
+ 138:Core/Src/Keyboard.c ****             }
+ 139:Core/Src/Keyboard.c ****         }
+ 140:Core/Src/Keyboard.c **** 
+ 141:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_SET);
+ 159              		.loc 1 141 9 is_stmt 1 view .LVU43
+ 160 0076 0122     		movs	r2, #1
+ 161 0078 3946     		mov	r1, r7
+ 162 007a 3046     		mov	r0, r6
+ 163 007c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 164              	.LVL12:
+ 117:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_RESET);
+ 165              		.loc 1 117 38 discriminator 2 view .LVU44
+ 166 0080 0135     		adds	r5, r5, #1
+ 167              	.LVL13:
+ 168              	.L4:
+ 117:Core/Src/Keyboard.c ****         HAL_GPIO_WritePin(ROW_Pins[row].port, ROW_Pins[row].pin, GPIO_PIN_RESET);
+ 169              		.loc 1 117 27 discriminator 1 view .LVU45
+ 170 0082 0F2D     		cmp	r5, #15
+ 171 0084 0FDC     		bgt	.L14
+ 118:Core/Src/Keyboard.c **** 
+ 172              		.loc 1 118 9 view .LVU46
+ 118:Core/Src/Keyboard.c **** 
+ 173              		.loc 1 118 40 is_stmt 0 view .LVU47
+ 174 0086 0F4B     		ldr	r3, .L15+16
+ 175 0088 53F83560 		ldr	r6, [r3, r5, lsl #3]
+ 118:Core/Src/Keyboard.c **** 
+ 176              		.loc 1 118 60 view .LVU48
+ 177 008c 03EBC503 		add	r3, r3, r5, lsl #3
+ 178 0090 9F88     		ldrh	r7, [r3, #4]
+ 118:Core/Src/Keyboard.c **** 
+ 179              		.loc 1 118 9 view .LVU49
+ 180 0092 0022     		movs	r2, #0
+ 181 0094 3946     		mov	r1, r7
+ 182 0096 3046     		mov	r0, r6
+ARM GAS  /tmp/ccQY94oY.s 			page 7
+
+
+ 183 0098 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 184              	.LVL14:
+ 121:Core/Src/Keyboard.c **** 
+ 185              		.loc 1 121 9 is_stmt 1 view .LVU50
+ 186 009c 0A20     		movs	r0, #10
+ 187 009e FFF7FEFF 		bl	delay_us
+ 188              	.LVL15:
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+ 189              		.loc 1 123 9 view .LVU51
+ 190              	.LBB5:
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+ 191              		.loc 1 123 14 view .LVU52
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+ 192              		.loc 1 123 18 is_stmt 0 view .LVU53
+ 193 00a2 0024     		movs	r4, #0
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+ 194              		.loc 1 123 9 view .LVU54
+ 195 00a4 C2E7     		b	.L5
+ 196              	.LVL16:
+ 197              	.L14:
+ 123:Core/Src/Keyboard.c ****             if (HAL_GPIO_ReadPin(COL_Pins[col].port, COL_Pins[col].pin) == GPIO_PIN_RESET) {
+ 198              		.loc 1 123 9 view .LVU55
+ 199              	.LBE5:
+ 200              	.LBE6:
+ 142:Core/Src/Keyboard.c ****     }
+ 143:Core/Src/Keyboard.c **** 
+ 144:Core/Src/Keyboard.c ****     // ===== СОХРАНЯЕМ МОДИФИКАТОРЫ (ГЛОБАЛЬНО!) =====
+ 145:Core/Src/Keyboard.c ****     current_modifiers = modifier_mask;
+ 201              		.loc 1 145 5 is_stmt 1 view .LVU56
+ 202              		.loc 1 145 23 is_stmt 0 view .LVU57
+ 203 00a6 084B     		ldr	r3, .L15+20
+ 204 00a8 83F80080 		strb	r8, [r3]
+ 146:Core/Src/Keyboard.c **** 
+ 147:Core/Src/Keyboard.c ****     return count;
+ 205              		.loc 1 147 5 is_stmt 1 view .LVU58
+ 148:Core/Src/Keyboard.c **** }
+ 206              		.loc 1 148 1 is_stmt 0 view .LVU59
+ 207 00ac 4846     		mov	r0, r9
+ 208 00ae BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 209              	.LVL17:
+ 210              	.L16:
+ 211              		.loc 1 148 1 view .LVU60
+ 212 00b2 00BF     		.align	2
+ 213              	.L15:
+ 214 00b4 00000000 		.word	fn_pressed
+ 215 00b8 00000000 		.word	COL_Pins
+ 216 00bc 00000000 		.word	modifier
+ 217 00c0 00000000 		.word	normal
+ 218 00c4 00000000 		.word	ROW_Pins
+ 219 00c8 00000000 		.word	current_modifiers
+ 220              		.cfi_endproc
+ 221              	.LFE65:
+ 223              		.section	.text.keyboard_has_changed,"ax",%progbits
+ 224              		.align	1
+ 225              		.global	keyboard_has_changed
+ 226              		.syntax unified
+ 227              		.thumb
+ARM GAS  /tmp/ccQY94oY.s 			page 8
+
+
+ 228              		.thumb_func
+ 230              	keyboard_has_changed:
+ 231              	.LVL18:
+ 232              	.LFB66:
+ 149:Core/Src/Keyboard.c **** 
+ 150:Core/Src/Keyboard.c **** // ===== ПРОВЕРКА ИЗМЕНЕНИЙ =====
+ 151:Core/Src/Keyboard.c **** uint8_t keyboard_has_changed(uint8_t* current, uint8_t* previous, uint8_t size)
+ 152:Core/Src/Keyboard.c **** {
+ 233              		.loc 1 152 1 is_stmt 1 view -0
+ 234              		.cfi_startproc
+ 235              		@ args = 0, pretend = 0, frame = 0
+ 236              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153:Core/Src/Keyboard.c ****     // Сначала проверяем модификаторы
+ 154:Core/Src/Keyboard.c ****     if (current_modifiers != last_modifiers) {
+ 237              		.loc 1 154 5 view .LVU62
+ 238              		.loc 1 154 27 is_stmt 0 view .LVU63
+ 239 0000 0E4B     		ldr	r3, .L30
+ 240 0002 93F800C0 		ldrb	ip, [r3]	@ zero_extendqisi2
+ 241 0006 0E4B     		ldr	r3, .L30+4
+ 242 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 243              		.loc 1 154 8 view .LVU64
+ 244 000a 9C45     		cmp	ip, r3
+ 245 000c 0FD1     		bne	.L21
+ 246              	.LBB7:
+ 155:Core/Src/Keyboard.c ****         return 1;
+ 156:Core/Src/Keyboard.c ****     }
+ 157:Core/Src/Keyboard.c **** 
+ 158:Core/Src/Keyboard.c ****     // Потом клавиши
+ 159:Core/Src/Keyboard.c ****     for (int i = 0; i < size; i++) {
+ 247              		.loc 1 159 14 view .LVU65
+ 248 000e 0023     		movs	r3, #0
+ 249              	.LVL19:
+ 250              		.loc 1 159 23 is_stmt 1 discriminator 1 view .LVU66
+ 251 0010 9A42     		cmp	r2, r3
+ 252 0012 10DD     		ble	.L29
+ 253              	.LBE7:
+ 152:Core/Src/Keyboard.c ****     // Сначала проверяем модификаторы
+ 254              		.loc 1 152 1 is_stmt 0 view .LVU67
+ 255 0014 00B5     		push	{lr}
+ 256              	.LCFI1:
+ 257              		.cfi_def_cfa_offset 4
+ 258              		.cfi_offset 14, -4
+ 259              	.L20:
+ 260              	.LBB8:
+ 160:Core/Src/Keyboard.c ****         if (current[i] != previous[i]) {
+ 261              		.loc 1 160 9 is_stmt 1 view .LVU68
+ 262              		.loc 1 160 20 is_stmt 0 view .LVU69
+ 263 0016 10F803E0 		ldrb	lr, [r0, r3]	@ zero_extendqisi2
+ 264              		.loc 1 160 35 view .LVU70
+ 265 001a 11F803C0 		ldrb	ip, [r1, r3]	@ zero_extendqisi2
+ 266              		.loc 1 160 12 view .LVU71
+ 267 001e E645     		cmp	lr, ip
+ 268 0020 07D1     		bne	.L22
+ 159:Core/Src/Keyboard.c ****         if (current[i] != previous[i]) {
+ 269              		.loc 1 159 32 is_stmt 1 discriminator 2 view .LVU72
+ 270 0022 0133     		adds	r3, r3, #1
+ 271              	.LVL20:
+ARM GAS  /tmp/ccQY94oY.s 			page 9
+
+
+ 159:Core/Src/Keyboard.c ****         if (current[i] != previous[i]) {
+ 272              		.loc 1 159 23 discriminator 1 view .LVU73
+ 273 0024 9A42     		cmp	r2, r3
+ 274 0026 F6DC     		bgt	.L20
+ 275              	.LBE8:
+ 161:Core/Src/Keyboard.c ****             return 1;
+ 162:Core/Src/Keyboard.c ****         }
+ 163:Core/Src/Keyboard.c ****     }
+ 164:Core/Src/Keyboard.c ****     return 0;
+ 276              		.loc 1 164 12 is_stmt 0 view .LVU74
+ 277 0028 0020     		movs	r0, #0
+ 278              	.LVL21:
+ 279              	.L18:
+ 165:Core/Src/Keyboard.c **** }
+ 280              		.loc 1 165 1 view .LVU75
+ 281 002a 5DF804FB 		ldr	pc, [sp], #4
+ 282              	.LVL22:
+ 283              	.L21:
+ 284              	.LCFI2:
+ 285              		.cfi_def_cfa_offset 0
+ 286              		.cfi_restore 14
+ 155:Core/Src/Keyboard.c ****     }
+ 287              		.loc 1 155 16 view .LVU76
+ 288 002e 0120     		movs	r0, #1
  289              	.LVL23:
- 290              	.L21:
- 291              	.LCFI3:
- 292              		.cfi_def_cfa_offset 4
- 293              		.cfi_offset 14, -4
- 294              	.LBB9:
- 165:Core/Src/Keyboard.c ****             return 1;
- 295              		.loc 1 165 20 view .LVU78
- 296 0032 0120     		movs	r0, #1
- 297              	.LVL24:
- 165:Core/Src/Keyboard.c ****             return 1;
- 298              		.loc 1 165 20 view .LVU79
- 299 0034 F9E7     		b	.L17
+ 155:Core/Src/Keyboard.c ****     }
+ 290              		.loc 1 155 16 view .LVU77
+ 291 0030 7047     		bx	lr
+ 292              	.LVL24:
+ 293              	.L22:
+ 294              	.LCFI3:
+ 295              		.cfi_def_cfa_offset 4
+ 296              		.cfi_offset 14, -4
+ 297              	.LBB9:
+ 161:Core/Src/Keyboard.c ****             return 1;
+ 298              		.loc 1 161 20 view .LVU78
+ 299 0032 0120     		movs	r0, #1
  300              	.LVL25:
- 301              	.L28:
- 302              	.LCFI4:
- 303              		.cfi_def_cfa_offset 0
- 304              		.cfi_restore 14
- 165:Core/Src/Keyboard.c ****             return 1;
- 305              		.loc 1 165 20 view .LVU80
-ARM GAS  /tmp/ccPukwhd.s 			page 10
+ 161:Core/Src/Keyboard.c ****             return 1;
+ 301              		.loc 1 161 20 view .LVU79
+ 302 0034 F9E7     		b	.L18
+ 303              	.LVL26:
+ 304              	.L29:
+ 305              	.LCFI4:
+ 306              		.cfi_def_cfa_offset 0
+ 307              		.cfi_restore 14
+ 161:Core/Src/Keyboard.c ****             return 1;
+ 308              		.loc 1 161 20 view .LVU80
+ 309              	.LBE9:
+ 164:Core/Src/Keyboard.c **** }
+ 310              		.loc 1 164 12 view .LVU81
+ 311 0036 0020     		movs	r0, #0
+ 312              	.LVL27:
+ 313              		.loc 1 165 1 view .LVU82
+ 314 0038 7047     		bx	lr
+ 315              	.L31:
+ 316 003a 00BF     		.align	2
+ARM GAS  /tmp/ccQY94oY.s 			page 10
 
 
- 306              	.LBE9:
- 168:Core/Src/Keyboard.c **** }
- 307              		.loc 1 168 12 view .LVU81
- 308 0036 0020     		movs	r0, #0
- 309              	.LVL26:
- 310              		.loc 1 169 1 view .LVU82
- 311 0038 7047     		bx	lr
- 312              	.L30:
- 313 003a 00BF     		.align	2
- 314              	.L29:
- 315 003c 00000000 		.word	current_modifiers
- 316 0040 00000000 		.word	last_modifiers
- 317              		.cfi_endproc
- 318              	.LFE66:
- 320              		.section	.text.keyboard_build_report,"ax",%progbits
- 321              		.align	1
- 322              		.global	keyboard_build_report
- 323              		.syntax unified
- 324              		.thumb
- 325              		.thumb_func
- 327              	keyboard_build_report:
- 328              	.LVL27:
- 329              	.LFB67:
- 170:Core/Src/Keyboard.c **** 
- 171:Core/Src/Keyboard.c **** // ===== ФОРМИРОВАНИЕ ОТЧЁТА =====
- 172:Core/Src/Keyboard.c **** void keyboard_build_report(uint8_t* keys, uint8_t count, uint8_t* report)
- 173:Core/Src/Keyboard.c **** {
- 330              		.loc 1 173 1 is_stmt 1 view -0
- 331              		.cfi_startproc
- 332              		@ args = 0, pretend = 0, frame = 0
- 333              		@ frame_needed = 0, uses_anonymous_args = 0
- 174:Core/Src/Keyboard.c ****     // Очищаем отчёт
- 175:Core/Src/Keyboard.c ****     for (int i = 0; i < 9; i++) {
- 334              		.loc 1 175 5 view .LVU84
- 335              	.LBB10:
- 336              		.loc 1 175 10 view .LVU85
- 337              		.loc 1 175 14 is_stmt 0 view .LVU86
- 338 0000 0023     		movs	r3, #0
- 339              		.loc 1 175 5 view .LVU87
- 340 0002 04E0     		b	.L32
- 341              	.LVL28:
- 342              	.L33:
- 176:Core/Src/Keyboard.c ****         report[i] = 0;
- 343              		.loc 1 176 9 is_stmt 1 view .LVU88
- 344              		.loc 1 176 19 is_stmt 0 view .LVU89
- 345 0004 4FF0000C 		mov	ip, #0
- 346 0008 02F803C0 		strb	ip, [r2, r3]
- 175:Core/Src/Keyboard.c ****         report[i] = 0;
- 347              		.loc 1 175 29 is_stmt 1 discriminator 3 view .LVU90
- 348 000c 0133     		adds	r3, r3, #1
- 349              	.LVL29:
- 350              	.L32:
- 175:Core/Src/Keyboard.c ****         report[i] = 0;
- 351              		.loc 1 175 23 discriminator 1 view .LVU91
- 352 000e 082B     		cmp	r3, #8
- 353 0010 F8DD     		ble	.L33
- 354              	.LBE10:
-ARM GAS  /tmp/ccPukwhd.s 			page 11
+ 317              	.L30:
+ 318 003c 00000000 		.word	current_modifiers
+ 319 0040 00000000 		.word	last_modifiers
+ 320              		.cfi_endproc
+ 321              	.LFE66:
+ 323              		.section	.text.keyboard_build_report,"ax",%progbits
+ 324              		.align	1
+ 325              		.global	keyboard_build_report
+ 326              		.syntax unified
+ 327              		.thumb
+ 328              		.thumb_func
+ 330              	keyboard_build_report:
+ 331              	.LVL28:
+ 332              	.LFB67:
+ 166:Core/Src/Keyboard.c **** 
+ 167:Core/Src/Keyboard.c **** // ===== ФОРМИРОВАНИЕ ОТЧЁТА =====
+ 168:Core/Src/Keyboard.c **** void keyboard_build_report(uint8_t* keys, uint8_t count, uint8_t* report)
+ 169:Core/Src/Keyboard.c **** {
+ 333              		.loc 1 169 1 is_stmt 1 view -0
+ 334              		.cfi_startproc
+ 335              		@ args = 0, pretend = 0, frame = 0
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170:Core/Src/Keyboard.c ****     // Очищаем отчёт
+ 171:Core/Src/Keyboard.c ****     for (int i = 0; i < 9; i++) {
+ 337              		.loc 1 171 5 view .LVU84
+ 338              	.LBB10:
+ 339              		.loc 1 171 10 view .LVU85
+ 340              		.loc 1 171 14 is_stmt 0 view .LVU86
+ 341 0000 0023     		movs	r3, #0
+ 342              		.loc 1 171 5 view .LVU87
+ 343 0002 04E0     		b	.L33
+ 344              	.LVL29:
+ 345              	.L34:
+ 172:Core/Src/Keyboard.c ****         report[i] = 0;
+ 346              		.loc 1 172 9 is_stmt 1 view .LVU88
+ 347              		.loc 1 172 19 is_stmt 0 view .LVU89
+ 348 0004 4FF0000C 		mov	ip, #0
+ 349 0008 02F803C0 		strb	ip, [r2, r3]
+ 171:Core/Src/Keyboard.c ****         report[i] = 0;
+ 350              		.loc 1 171 29 is_stmt 1 discriminator 3 view .LVU90
+ 351 000c 0133     		adds	r3, r3, #1
+ 352              	.LVL30:
+ 353              	.L33:
+ 171:Core/Src/Keyboard.c ****         report[i] = 0;
+ 354              		.loc 1 171 23 discriminator 1 view .LVU91
+ 355 000e 082B     		cmp	r3, #8
+ 356 0010 F8DD     		ble	.L34
+ 357              	.LBE10:
+ 173:Core/Src/Keyboard.c ****     }
+ 174:Core/Src/Keyboard.c **** 
+ 175:Core/Src/Keyboard.c ****     report[0] = 0x01; // Report ID
+ 358              		.loc 1 175 5 view .LVU92
+ 359              		.loc 1 175 15 is_stmt 0 view .LVU93
+ 360 0012 0123     		movs	r3, #1
+ 361              	.LVL31:
+ 362              		.loc 1 175 15 view .LVU94
+ 363 0014 1370     		strb	r3, [r2]
+ARM GAS  /tmp/ccQY94oY.s 			page 11
 
 
- 177:Core/Src/Keyboard.c ****     }
+ 176:Core/Src/Keyboard.c ****     report[1] = current_modifiers; // ← Модификаторы (даже если нет кла
+ 364              		.loc 1 176 5 is_stmt 1 view .LVU95
+ 365              		.loc 1 176 15 is_stmt 0 view .LVU96
+ 366 0016 0D4B     		ldr	r3, .L46
+ 367 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 368 001a 5370     		strb	r3, [r2, #1]
+ 177:Core/Src/Keyboard.c ****     report[2] = 0x00; // Зарезервировано
+ 369              		.loc 1 177 5 is_stmt 1 view .LVU97
+ 370              		.loc 1 177 15 is_stmt 0 view .LVU98
+ 371 001c 0023     		movs	r3, #0
+ 372 001e 9370     		strb	r3, [r2, #2]
  178:Core/Src/Keyboard.c **** 
- 179:Core/Src/Keyboard.c ****     report[0] = 0x01; // Report ID
- 355              		.loc 1 179 5 view .LVU92
- 356              		.loc 1 179 15 is_stmt 0 view .LVU93
- 357 0012 0123     		movs	r3, #1
- 358              	.LVL30:
- 359              		.loc 1 179 15 view .LVU94
- 360 0014 1370     		strb	r3, [r2]
- 180:Core/Src/Keyboard.c ****     report[1] = current_modifiers; // ← Модификаторы (даже если нет кла
- 361              		.loc 1 180 5 is_stmt 1 view .LVU95
- 362              		.loc 1 180 15 is_stmt 0 view .LVU96
- 363 0016 0D4B     		ldr	r3, .L45
- 364 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 365 001a 5370     		strb	r3, [r2, #1]
- 181:Core/Src/Keyboard.c ****     report[2] = 0x00; // Зарезервировано
- 366              		.loc 1 181 5 is_stmt 1 view .LVU97
- 367              		.loc 1 181 15 is_stmt 0 view .LVU98
- 368 001c 0023     		movs	r3, #0
- 369 001e 9370     		strb	r3, [r2, #2]
- 182:Core/Src/Keyboard.c **** 
- 183:Core/Src/Keyboard.c ****     // Копируем клавиши
- 184:Core/Src/Keyboard.c ****     for (int i = 0; i < 6 && i < count; i++) {
- 370              		.loc 1 184 5 is_stmt 1 view .LVU99
- 371              	.LBB11:
- 372              		.loc 1 184 10 view .LVU100
- 373              	.LVL31:
- 374              		.loc 1 184 27 discriminator 1 view .LVU101
- 375 0020 052B     		cmp	r3, #5
- 376 0022 11DC     		bgt	.L40
- 377              		.loc 1 184 27 is_stmt 0 discriminator 3 view .LVU102
- 378 0024 9942     		cmp	r1, r3
- 379 0026 0EDD     		ble	.L43
- 380              	.LBE11:
- 173:Core/Src/Keyboard.c ****     // Очищаем отчёт
- 381              		.loc 1 173 1 view .LVU103
- 382 0028 00B5     		push	{lr}
- 383              	.LCFI5:
- 384              		.cfi_def_cfa_offset 4
- 385              		.cfi_offset 14, -4
- 386 002a 01E0     		b	.L36
- 387              	.L44:
- 388              	.LBB12:
- 389              		.loc 1 184 27 discriminator 3 view .LVU104
- 390 002c 9942     		cmp	r1, r3
- 391 002e 08DD     		ble	.L31
- 392              	.L36:
- 185:Core/Src/Keyboard.c ****         report[3 + i] = keys[i];
- 393              		.loc 1 185 9 is_stmt 1 view .LVU105
- 394              		.loc 1 185 18 is_stmt 0 view .LVU106
- 395 0030 03F1030C 		add	ip, r3, #3
- 396              		.loc 1 185 29 view .LVU107
- 397 0034 10F803E0 		ldrb	lr, [r0, r3]	@ zero_extendqisi2
- 398              		.loc 1 185 23 view .LVU108
- 399 0038 02F80CE0 		strb	lr, [r2, ip]
- 184:Core/Src/Keyboard.c ****         report[3 + i] = keys[i];
- 400              		.loc 1 184 42 is_stmt 1 discriminator 4 view .LVU109
-ARM GAS  /tmp/ccPukwhd.s 			page 12
+ 179:Core/Src/Keyboard.c ****     // Копируем клавиши
+ 180:Core/Src/Keyboard.c ****     for (int i = 0; i < 6 && i < count; i++) {
+ 373              		.loc 1 180 5 is_stmt 1 view .LVU99
+ 374              	.LBB11:
+ 375              		.loc 1 180 10 view .LVU100
+ 376              	.LVL32:
+ 377              		.loc 1 180 27 discriminator 1 view .LVU101
+ 378 0020 052B     		cmp	r3, #5
+ 379 0022 11DC     		bgt	.L41
+ 380              		.loc 1 180 27 is_stmt 0 discriminator 3 view .LVU102
+ 381 0024 9942     		cmp	r1, r3
+ 382 0026 0EDD     		ble	.L44
+ 383              	.LBE11:
+ 169:Core/Src/Keyboard.c ****     // Очищаем отчёт
+ 384              		.loc 1 169 1 view .LVU103
+ 385 0028 00B5     		push	{lr}
+ 386              	.LCFI5:
+ 387              		.cfi_def_cfa_offset 4
+ 388              		.cfi_offset 14, -4
+ 389 002a 01E0     		b	.L37
+ 390              	.L45:
+ 391              	.LBB12:
+ 392              		.loc 1 180 27 discriminator 3 view .LVU104
+ 393 002c 9942     		cmp	r1, r3
+ 394 002e 08DD     		ble	.L32
+ 395              	.L37:
+ 181:Core/Src/Keyboard.c ****         report[3 + i] = keys[i];
+ 396              		.loc 1 181 9 is_stmt 1 view .LVU105
+ 397              		.loc 1 181 18 is_stmt 0 view .LVU106
+ 398 0030 03F1030C 		add	ip, r3, #3
+ 399              		.loc 1 181 29 view .LVU107
+ 400 0034 10F803E0 		ldrb	lr, [r0, r3]	@ zero_extendqisi2
+ 401              		.loc 1 181 23 view .LVU108
+ 402 0038 02F80CE0 		strb	lr, [r2, ip]
+ 180:Core/Src/Keyboard.c ****         report[3 + i] = keys[i];
+ 403              		.loc 1 180 42 is_stmt 1 discriminator 4 view .LVU109
+ 404 003c 0133     		adds	r3, r3, #1
+ 405              	.LVL33:
+ 180:Core/Src/Keyboard.c ****         report[3 + i] = keys[i];
+ 406              		.loc 1 180 27 discriminator 1 view .LVU110
+ 407 003e 052B     		cmp	r3, #5
+ 408 0040 F4DD     		ble	.L45
+ 409              	.L32:
+ 410              	.LBE12:
+ 182:Core/Src/Keyboard.c ****     }
+ARM GAS  /tmp/ccQY94oY.s 			page 12
 
 
- 401 003c 0133     		adds	r3, r3, #1
- 402              	.LVL32:
- 184:Core/Src/Keyboard.c ****         report[3 + i] = keys[i];
- 403              		.loc 1 184 27 discriminator 1 view .LVU110
- 404 003e 052B     		cmp	r3, #5
- 405 0040 F4DD     		ble	.L44
- 406              	.L31:
- 407              	.LBE12:
- 186:Core/Src/Keyboard.c ****     }
- 187:Core/Src/Keyboard.c **** }
- 408              		.loc 1 187 1 is_stmt 0 view .LVU111
- 409 0042 5DF804FB 		ldr	pc, [sp], #4
- 410              	.L43:
- 411              	.LCFI6:
- 412              		.cfi_def_cfa_offset 0
- 413              		.cfi_restore 14
- 414              		.loc 1 187 1 view .LVU112
- 415 0046 7047     		bx	lr
- 416              	.L40:
- 417 0048 7047     		bx	lr
- 418              	.L46:
- 419 004a 00BF     		.align	2
- 420              	.L45:
- 421 004c 00000000 		.word	current_modifiers
- 422              		.cfi_endproc
- 423              	.LFE67:
- 425              		.section	.rodata.modifier,"a"
- 426              		.align	2
- 429              	modifier:
- 430 0000 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 430      00000000 
- 431 0008 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 431      00000000 
- 432 0010 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 432      00000000 
- 433 0018 00000000 		.ascii	"\000\000\000\000\004\000\000@"
- 433      04000040 
- 434 0020 08000000 		.ascii	"\010\000\000\000\000\000\000\000"
+ 183:Core/Src/Keyboard.c **** }
+ 411              		.loc 1 183 1 is_stmt 0 view .LVU111
+ 412 0042 5DF804FB 		ldr	pc, [sp], #4
+ 413              	.L44:
+ 414              	.LCFI6:
+ 415              		.cfi_def_cfa_offset 0
+ 416              		.cfi_restore 14
+ 417              		.loc 1 183 1 view .LVU112
+ 418 0046 7047     		bx	lr
+ 419              	.L41:
+ 420 0048 7047     		bx	lr
+ 421              	.L47:
+ 422 004a 00BF     		.align	2
+ 423              	.L46:
+ 424 004c 00000000 		.word	current_modifiers
+ 425              		.cfi_endproc
+ 426              	.LFE67:
+ 428              		.section	.rodata.modifier,"a"
+ 429              		.align	2
+ 432              	modifier:
+ 433 0000 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 433      00000000 
+ 434 0008 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  434      00000000 
- 435 0028 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 435 0010 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  435      00000000 
- 436 0030 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 436      00000000 
- 437 0038 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 436 0018 00000000 		.ascii	"\000\000\000\000\004\000\000@"
+ 436      04000040 
+ 437 0020 08000000 		.ascii	"\010\000\000\000\000\000\000\000"
  437      00000000 
- 438 0040 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 438 0028 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  438      00000000 
- 439 0048 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 439 0030 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  439      00000000 
- 440 0050 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 440 0038 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  440      00000000 
- 441 0058 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 441 0040 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  441      00000000 
- 442 0060 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 442 0048 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  442      00000000 
- 443 0068 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 443 0050 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
  443      00000000 
-ARM GAS  /tmp/ccPukwhd.s 			page 13
+ 444 0058 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 444      00000000 
+ 445 0060 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 445      00000000 
+ 446 0068 00000083 		.ascii	"\000\000\000\203\000\000\000\000"
+ 446      00000000 
+ 447 0070 00000100 		.ascii	"\000\000\001\000\000\000\020\000"
+ 447      00001000 
+ 448 0078 00020000 		.ascii	"\000\002\000\000\000 \000\000"
+ 448      00200000 
+ 449              		.section	.rodata.normal,"a"
+ 450              		.align	2
+ 453              	normal:
+ 454 0000 002A494C 		.ascii	"\000*IL(\0001\000"
+ 454      28003100 
+ARM GAS  /tmp/ccQY94oY.s 			page 13
 
 
- 444 0070 00000100 		.ascii	"\000\000\001\000\000\000\020\000"
- 444      00001000 
- 445 0078 00020000 		.ascii	"\000\002\000\000\000 \000\000"
- 445      00200000 
- 446              		.section	.rodata.normal,"a"
- 447              		.align	2
- 450              	normal:
- 451 0000 002A494C 		.ascii	"\000*IL(\0001\000"
- 451      28003100 
- 452 0008 4B4D4E4A 		.ascii	"KMNJROQP"
- 452      524F5150 
- 453 0010 002E0046 		.ascii	"\000.\000F04\000\000"
- 453      30340000 
- 454 0018 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 454      00000000 
- 455 0020 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 455      00000000 
- 456 0028 2F13452D 		.ascii	"/\023E-\000\0008e"
- 456      00003865 
- 457 0030 392B2935 		.ascii	"9+)53,\000\000"
- 457      332C0000 
- 458 0038 1F1E3A3B 		.ascii	"\037\036:;\024\032\026\035"
- 458      141A161D 
- 459 0040 21203C3D 		.ascii	"! <=\010\007\004\033"
- 459      0807041B 
- 460 0048 15223E3F 		.ascii	"\025\">?\027\011\006\031"
- 460      17090619 
- 461 0050 1C244023 		.ascii	"\034$@#\012\013\016\021"
- 461      0A0B0E11 
- 462 0058 18254142 		.ascii	"\030%AB\014\015\005\020"
- 462      0C0D0510 
- 463 0060 27264344 		.ascii	"'&CD\022\01776"
- 463      120F3736 
- 464 0068 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 464      00000000 
- 465 0070 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 465      00000000 
- 466 0078 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
- 466      00000000 
- 467              		.section	.rodata.COL_Pins,"a"
- 468              		.align	2
- 471              	COL_Pins:
- 472 0000 000C0140 		.word	1073810432
- 473 0004 0002     		.short	512
- 474 0006 0000     		.space	2
- 475 0008 00080140 		.word	1073809408
- 476 000c 0100     		.short	1
- 477 000e 0000     		.space	2
- 478 0010 000C0140 		.word	1073810432
- 479 0014 0001     		.short	256
- 480 0016 0000     		.space	2
- 481 0018 00080140 		.word	1073809408
- 482 001c 0800     		.short	8
- 483 001e 0000     		.space	2
- 484 0020 000C0140 		.word	1073810432
- 485 0024 0100     		.short	1
- 486 0026 0000     		.space	2
-ARM GAS  /tmp/ccPukwhd.s 			page 14
+ 455 0008 4B4D4E4A 		.ascii	"KMNJROQP"
+ 455      524F5150 
+ 456 0010 002E0046 		.ascii	"\000.\000F04\000\000"
+ 456      30340000 
+ 457 0018 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 457      00000000 
+ 458 0020 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 458      00000000 
+ 459 0028 2F13452D 		.ascii	"/\023E-\000\0008e"
+ 459      00003865 
+ 460 0030 392B2935 		.ascii	"9+)53,\000\000"
+ 460      332C0000 
+ 461 0038 1F1E3A3B 		.ascii	"\037\036:;\024\032\026\035"
+ 461      141A161D 
+ 462 0040 21203C3D 		.ascii	"! <=\010\007\004\033"
+ 462      0807041B 
+ 463 0048 15223E3F 		.ascii	"\025\">?\027\011\006\031"
+ 463      17090619 
+ 464 0050 1C244023 		.ascii	"\034$@#\012\013\016\021"
+ 464      0A0B0E11 
+ 465 0058 18254142 		.ascii	"\030%AB\014\015\005\020"
+ 465      0C0D0510 
+ 466 0060 27264344 		.ascii	"'&CD\022\01776"
+ 466      120F3736 
+ 467 0068 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 467      00000000 
+ 468 0070 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 468      00000000 
+ 469 0078 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 469      00000000 
+ 470              		.section	.rodata.COL_Pins,"a"
+ 471              		.align	2
+ 474              	COL_Pins:
+ 475 0000 000C0140 		.word	1073810432
+ 476 0004 0002     		.short	512
+ 477 0006 0000     		.space	2
+ 478 0008 00080140 		.word	1073809408
+ 479 000c 0100     		.short	1
+ 480 000e 0000     		.space	2
+ 481 0010 000C0140 		.word	1073810432
+ 482 0014 0001     		.short	256
+ 483 0016 0000     		.space	2
+ 484 0018 00080140 		.word	1073809408
+ 485 001c 0800     		.short	8
+ 486 001e 0000     		.space	2
+ 487 0020 000C0140 		.word	1073810432
+ 488 0024 0100     		.short	1
+ 489 0026 0000     		.space	2
+ 490 0028 000C0140 		.word	1073810432
+ 491 002c 0200     		.short	2
+ 492 002e 0000     		.space	2
+ 493 0030 00080140 		.word	1073809408
+ 494 0034 0002     		.short	512
+ 495 0036 0000     		.space	2
+ 496 0038 00080140 		.word	1073809408
+ 497 003c 0001     		.short	256
+ 498 003e 0000     		.space	2
+ARM GAS  /tmp/ccQY94oY.s 			page 14
 
 
- 487 0028 000C0140 		.word	1073810432
- 488 002c 0200     		.short	2
- 489 002e 0000     		.space	2
- 490 0030 00080140 		.word	1073809408
- 491 0034 0002     		.short	512
- 492 0036 0000     		.space	2
- 493 0038 00080140 		.word	1073809408
- 494 003c 0001     		.short	256
- 495 003e 0000     		.space	2
- 496              		.section	.rodata.ROW_Pins,"a"
- 497              		.align	2
- 500              	ROW_Pins:
- 501 0000 00080140 		.word	1073809408
- 502 0004 0200     		.short	2
- 503 0006 0000     		.space	2
- 504 0008 00080140 		.word	1073809408
- 505 000c 0400     		.short	4
- 506 000e 0000     		.space	2
- 507 0010 000C0140 		.word	1073810432
- 508 0014 2000     		.short	32
- 509 0016 0000     		.space	2
- 510 0018 000C0140 		.word	1073810432
- 511 001c 1000     		.short	16
- 512 001e 0000     		.space	2
- 513 0020 00080140 		.word	1073809408
- 514 0024 1000     		.short	16
- 515 0026 0000     		.space	2
- 516 0028 000C0140 		.word	1073810432
- 517 002c 0800     		.short	8
- 518 002e 0000     		.space	2
- 519 0030 00080140 		.word	1073809408
- 520 0034 2000     		.short	32
- 521 0036 0000     		.space	2
- 522 0038 00080140 		.word	1073809408
- 523 003c 4000     		.short	64
- 524 003e 0000     		.space	2
- 525 0040 00080140 		.word	1073809408
- 526 0044 8000     		.short	128
- 527 0046 0000     		.space	2
- 528 0048 00080140 		.word	1073809408
- 529 004c 0004     		.short	1024
- 530 004e 0000     		.space	2
- 531 0050 000C0140 		.word	1073810432
- 532 0054 0004     		.short	1024
- 533 0056 0000     		.space	2
- 534 0058 000C0140 		.word	1073810432
- 535 005c 0008     		.short	2048
- 536 005e 0000     		.space	2
- 537 0060 000C0140 		.word	1073810432
- 538 0064 0080     		.short	-32768
- 539 0066 0000     		.space	2
- 540 0068 000C0140 		.word	1073810432
- 541 006c 0040     		.short	16384
- 542 006e 0000     		.space	2
- 543 0070 000C0140 		.word	1073810432
- 544 0074 0020     		.short	8192
- 545 0076 0000     		.space	2
-ARM GAS  /tmp/ccPukwhd.s 			page 15
+ 499              		.section	.rodata.ROW_Pins,"a"
+ 500              		.align	2
+ 503              	ROW_Pins:
+ 504 0000 00080140 		.word	1073809408
+ 505 0004 0200     		.short	2
+ 506 0006 0000     		.space	2
+ 507 0008 00080140 		.word	1073809408
+ 508 000c 0400     		.short	4
+ 509 000e 0000     		.space	2
+ 510 0010 000C0140 		.word	1073810432
+ 511 0014 2000     		.short	32
+ 512 0016 0000     		.space	2
+ 513 0018 000C0140 		.word	1073810432
+ 514 001c 1000     		.short	16
+ 515 001e 0000     		.space	2
+ 516 0020 00080140 		.word	1073809408
+ 517 0024 1000     		.short	16
+ 518 0026 0000     		.space	2
+ 519 0028 000C0140 		.word	1073810432
+ 520 002c 0800     		.short	8
+ 521 002e 0000     		.space	2
+ 522 0030 00080140 		.word	1073809408
+ 523 0034 2000     		.short	32
+ 524 0036 0000     		.space	2
+ 525 0038 00080140 		.word	1073809408
+ 526 003c 4000     		.short	64
+ 527 003e 0000     		.space	2
+ 528 0040 00080140 		.word	1073809408
+ 529 0044 8000     		.short	128
+ 530 0046 0000     		.space	2
+ 531 0048 00080140 		.word	1073809408
+ 532 004c 0004     		.short	1024
+ 533 004e 0000     		.space	2
+ 534 0050 000C0140 		.word	1073810432
+ 535 0054 0004     		.short	1024
+ 536 0056 0000     		.space	2
+ 537 0058 000C0140 		.word	1073810432
+ 538 005c 0008     		.short	2048
+ 539 005e 0000     		.space	2
+ 540 0060 000C0140 		.word	1073810432
+ 541 0064 0080     		.short	-32768
+ 542 0066 0000     		.space	2
+ 543 0068 000C0140 		.word	1073810432
+ 544 006c 0040     		.short	16384
+ 545 006e 0000     		.space	2
+ 546 0070 000C0140 		.word	1073810432
+ 547 0074 0020     		.short	8192
+ 548 0076 0000     		.space	2
+ 549 0078 000C0140 		.word	1073810432
+ 550 007c 0010     		.short	4096
+ 551 007e 0000     		.space	2
+ 552              		.global	fn_pressed
+ 553              		.section	.bss.fn_pressed,"aw",%nobits
+ 556              	fn_pressed:
+ 557 0000 00       		.space	1
+ 558              		.global	last_modifiers
+ 559              		.section	.bss.last_modifiers,"aw",%nobits
+ARM GAS  /tmp/ccQY94oY.s 			page 15
 
 
- 546 0078 000C0140 		.word	1073810432
- 547 007c 0010     		.short	4096
- 548 007e 0000     		.space	2
- 549              		.global	fn_pressed
- 550              		.section	.bss.fn_pressed,"aw",%nobits
- 553              	fn_pressed:
- 554 0000 00       		.space	1
- 555              		.global	last_modifiers
- 556              		.section	.bss.last_modifiers,"aw",%nobits
- 559              	last_modifiers:
- 560 0000 00       		.space	1
- 561              		.global	current_modifiers
- 562              		.section	.bss.current_modifiers,"aw",%nobits
- 565              	current_modifiers:
- 566 0000 00       		.space	1
- 567              		.text
- 568              	.Letext0:
- 569              		.file 2 "/usr/lib/gcc/arm-none-eabi/14.2.1/include/stdint.h"
- 570              		.file 3 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 571              		.file 4 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
- 572              		.file 5 "Core/Inc/Keyboard.h"
- 573              		.file 6 "Core/Inc/main.h"
-ARM GAS  /tmp/ccPukwhd.s 			page 16
+ 562              	last_modifiers:
+ 563 0000 00       		.space	1
+ 564              		.global	current_modifiers
+ 565              		.section	.bss.current_modifiers,"aw",%nobits
+ 568              	current_modifiers:
+ 569 0000 00       		.space	1
+ 570              		.text
+ 571              	.Letext0:
+ 572              		.file 2 "/usr/lib/gcc/arm-none-eabi/14.2.1/include/stdint.h"
+ 573              		.file 3 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 574              		.file 4 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 575              		.file 5 "Core/Inc/Keyboard.h"
+ 576              		.file 6 "Core/Inc/main.h"
+ARM GAS  /tmp/ccQY94oY.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 Keyboard.c
-     /tmp/ccPukwhd.s:19     .text.keyboard_scan:00000000 $t
-     /tmp/ccPukwhd.s:25     .text.keyboard_scan:00000000 keyboard_scan
-     /tmp/ccPukwhd.s:211    .text.keyboard_scan:000000ac $d
-     /tmp/ccPukwhd.s:553    .bss.fn_pressed:00000000 fn_pressed
-     /tmp/ccPukwhd.s:450    .rodata.normal:00000000 normal
-     /tmp/ccPukwhd.s:471    .rodata.COL_Pins:00000000 COL_Pins
-     /tmp/ccPukwhd.s:429    .rodata.modifier:00000000 modifier
-     /tmp/ccPukwhd.s:500    .rodata.ROW_Pins:00000000 ROW_Pins
-     /tmp/ccPukwhd.s:565    .bss.current_modifiers:00000000 current_modifiers
-     /tmp/ccPukwhd.s:221    .text.keyboard_has_changed:00000000 $t
-     /tmp/ccPukwhd.s:227    .text.keyboard_has_changed:00000000 keyboard_has_changed
-     /tmp/ccPukwhd.s:315    .text.keyboard_has_changed:0000003c $d
-     /tmp/ccPukwhd.s:559    .bss.last_modifiers:00000000 last_modifiers
-     /tmp/ccPukwhd.s:321    .text.keyboard_build_report:00000000 $t
-     /tmp/ccPukwhd.s:327    .text.keyboard_build_report:00000000 keyboard_build_report
-     /tmp/ccPukwhd.s:421    .text.keyboard_build_report:0000004c $d
-     /tmp/ccPukwhd.s:426    .rodata.modifier:00000000 $d
-     /tmp/ccPukwhd.s:447    .rodata.normal:00000000 $d
-     /tmp/ccPukwhd.s:468    .rodata.COL_Pins:00000000 $d
-     /tmp/ccPukwhd.s:497    .rodata.ROW_Pins:00000000 $d
-     /tmp/ccPukwhd.s:554    .bss.fn_pressed:00000000 $d
-     /tmp/ccPukwhd.s:560    .bss.last_modifiers:00000000 $d
-     /tmp/ccPukwhd.s:566    .bss.current_modifiers:00000000 $d
+     /tmp/ccQY94oY.s:19     .text.keyboard_scan:00000000 $t
+     /tmp/ccQY94oY.s:25     .text.keyboard_scan:00000000 keyboard_scan
+     /tmp/ccQY94oY.s:214    .text.keyboard_scan:000000b4 $d
+     /tmp/ccQY94oY.s:556    .bss.fn_pressed:00000000 fn_pressed
+     /tmp/ccQY94oY.s:474    .rodata.COL_Pins:00000000 COL_Pins
+     /tmp/ccQY94oY.s:432    .rodata.modifier:00000000 modifier
+     /tmp/ccQY94oY.s:453    .rodata.normal:00000000 normal
+     /tmp/ccQY94oY.s:503    .rodata.ROW_Pins:00000000 ROW_Pins
+     /tmp/ccQY94oY.s:568    .bss.current_modifiers:00000000 current_modifiers
+     /tmp/ccQY94oY.s:224    .text.keyboard_has_changed:00000000 $t
+     /tmp/ccQY94oY.s:230    .text.keyboard_has_changed:00000000 keyboard_has_changed
+     /tmp/ccQY94oY.s:318    .text.keyboard_has_changed:0000003c $d
+     /tmp/ccQY94oY.s:562    .bss.last_modifiers:00000000 last_modifiers
+     /tmp/ccQY94oY.s:324    .text.keyboard_build_report:00000000 $t
+     /tmp/ccQY94oY.s:330    .text.keyboard_build_report:00000000 keyboard_build_report
+     /tmp/ccQY94oY.s:424    .text.keyboard_build_report:0000004c $d
+     /tmp/ccQY94oY.s:429    .rodata.modifier:00000000 $d
+     /tmp/ccQY94oY.s:450    .rodata.normal:00000000 $d
+     /tmp/ccQY94oY.s:471    .rodata.COL_Pins:00000000 $d
+     /tmp/ccQY94oY.s:500    .rodata.ROW_Pins:00000000 $d
+     /tmp/ccQY94oY.s:557    .bss.fn_pressed:00000000 $d
+     /tmp/ccQY94oY.s:563    .bss.last_modifiers:00000000 $d
+     /tmp/ccQY94oY.s:569    .bss.current_modifiers:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_ReadPin

@@ -109,7 +109,6 @@ uint8_t keyboard_scan(uint8_t* keys, uint8_t max_keys)
 
     // ===== СБРАСЫВАЕМ ФЛАГ FN =====
     fn_pressed = 0;
-
     // Очищаем массив клавиш
     for (int i = 0; i < max_keys; i++) {
         keys[i] = 0;
@@ -127,10 +126,7 @@ uint8_t keyboard_scan(uint8_t* keys, uint8_t max_keys)
                 // ===== ПРОВЕРЯЕМ FN =====
                 if (modifier[row][col] == KEY_FN) {
                     fn_pressed = 1; // <-- FN НАЖАТА!
-                }
-
-                // ===== МОДИФИКАТОРЫ =====
-                if (modifier[row][col] != 0) {
+                } else if (modifier[row][col] != 0) {
                     modifier_mask |= modifier[row][col];
                 }
                 // ===== ОБЫЧНЫЕ КЛАВИШИ =====

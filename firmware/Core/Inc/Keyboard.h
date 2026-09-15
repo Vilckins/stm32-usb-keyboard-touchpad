@@ -115,7 +115,7 @@
 #define KEY_QUOTE 0x34 // ' (одинарная кавычка)
 #define KEY_BACKSLASH 0x31 // обратный слеш
 
-#define KEY_FN 0x00 // give Fn key a HID code
+#define KEY_FN 0x83 // give Fn key a HID code
 
 extern volatile uint8_t fn_pressed;
 

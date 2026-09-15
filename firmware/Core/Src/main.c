@@ -113,6 +113,7 @@ int main(void)
             // Проверяем, нажаты ли F5 или F6
             for (int i = 0; i < count; i++) {
                 if (current_keys[i] == KEY_F5) {
+
                     // Volume Down
                     USBD_HID_SendMedia(&hUsbDeviceFS, 0x02);
                     HAL_Delay(100);
